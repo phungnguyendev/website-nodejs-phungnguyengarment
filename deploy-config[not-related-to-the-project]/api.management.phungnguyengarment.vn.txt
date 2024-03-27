@@ -1,0 +1,13 @@
+server {
+
+        server_name api.management.phungnguyengarment.vn www.api.management.phungnguyengarment.vn;
+
+        location / {
+                proxy_pass http://27.71.26.53:5001;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection 'upgrade';
+                proxy_set_header Host $host;
+                proxy_cache_bypass $http_upgrade;
+        }
+}
