@@ -13,7 +13,7 @@ export default class ProductController {
       const itemRequest: Product = {
         title: req.body.title,
         desc: req.body.desc,
-        imageUrl: req.body.imageUrl
+        imageId: req.body.imageId
       }
       const itemNew = await service.createNewItem(itemRequest)
       if (itemNew) {
@@ -44,13 +44,12 @@ export default class ProductController {
         ...req.body
       }
       const items = await service.getItems(bodyRequest)
-      const total = await service.getItemsWithStatus()
       return res.formatter.ok({
         data: items.rows,
         length: items.rows.length,
         page: Number(bodyRequest.paginator.page),
         pageSize: Number(bodyRequest.paginator.pageSize),
-        total: bodyRequest.search.term.length > 0 ? items.count : total.length,
+        total: items.count,
         message: message.SUCCESS
       })
     } catch (error) {
@@ -64,7 +63,7 @@ export default class ProductController {
       const itemRequest: Product = {
         title: req.body.title,
         desc: req.body.desc,
-        imageUrl: req.body.imageUrl
+        imageId: req.body.imageId
       }
       const itemUpdated = await service.updateItemByPk(id, itemRequest)
       if (itemUpdated) {

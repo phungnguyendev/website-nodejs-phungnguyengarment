@@ -5,7 +5,7 @@ import { validators } from '../utils/constant'
 type RuleType = {
   location: Location
   field: string
-  fieldType: 'string' | 'int' | 'float' | 'date' | 'boolean' | 'object' | 'array'
+  fieldType: 'string' | 'int' | 'float' | 'date' | 'boolean' | 'object' | 'array' | 'file'
   required?: boolean
 }
 

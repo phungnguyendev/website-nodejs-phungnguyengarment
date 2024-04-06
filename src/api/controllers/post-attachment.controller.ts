@@ -43,13 +43,12 @@ export default class PostAttachmentController {
         ...req.body
       }
       const items = await service.getItems(bodyRequest)
-      const total = await service.getItemsWithStatus()
       return res.formatter.ok({
         data: items.rows,
         length: items.rows.length,
         page: Number(bodyRequest.paginator.page),
         pageSize: Number(bodyRequest.paginator.pageSize),
-        total: bodyRequest.search.term.length > 0 ? items.count : total.length,
+        total: items.count,
         message: message.SUCCESS
       })
     } catch (error) {

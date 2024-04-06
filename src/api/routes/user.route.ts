@@ -1,40 +1,44 @@
 import { Router } from 'express'
-import PartnerController from '../controllers/partner.controller'
+import AuthController from '~/controllers/auth/auth.controller'
+import UserController from '~/controllers/user.controller'
 import { validationRules } from '../middleware/request-validator'
 
-class PartnerRoute {
+class UserRoute {
   router = Router()
-  controller = new PartnerController()
-
+  controller = new UserController()
+  authController = new AuthController()
   constructor() {
     this.initialize()
   }
 
   private initialize() {
-    // Create new item
     this.router.post(
       '/',
       validationRules([
-        { field: 'title', fieldType: 'string', location: 'body' },
-        { field: 'imageId', fieldType: 'string', location: 'body' }
+        { field: 'email', fieldType: 'string', location: 'body' },
+        { field: 'password', fieldType: 'string', location: 'body' }
       ]),
       this.controller.createNewItem
     )
 
-    this.router.post(
-      '/createOrUpdate/:id',
-      validationRules([
-        { field: 'id', fieldType: 'int', location: 'params' },
-        { field: 'title', fieldType: 'string', location: 'body' }
-      ]),
-      this.controller.createNewItem
+    this.router.get(
+      '/accessToken/:accessToken',
+      validationRules([{ field: 'accessToken', fieldType: 'string', location: 'params' }]),
+      this.controller.userFromAccessToken
     )
 
-    // Get item by productID and importedID
+    // Get item
     this.router.get(
       '/:id',
       validationRules([{ field: 'id', fieldType: 'int', location: 'params' }]),
-      this.controller.getItemByPk
+      this.controller.getUserByPk
+    )
+
+    // Get item
+    this.router.get(
+      '/email/:email',
+      validationRules([{ field: 'email', fieldType: 'string', location: 'params' }]),
+      this.controller.getItemByEmail
     )
 
     // Get all items
@@ -46,14 +50,21 @@ class PartnerRoute {
         { field: 'search', fieldType: 'object', location: 'body' },
         { field: 'sorting', fieldType: 'object', location: 'body' }
       ]),
-      this.controller.getItems
+      this.controller.getAllUsers
+    )
+
+    // Update item by productID and importedID
+    this.router.put(
+      '/email/:email',
+      validationRules([{ field: 'email', fieldType: 'string', location: 'params' }]),
+      this.controller.updateUserByEmail
     )
 
     // Update item by productID and importedID
     this.router.put(
       '/:id',
       validationRules([{ field: 'id', fieldType: 'int', location: 'params' }]),
-      this.controller.updateItemByPk
+      this.controller.updateUserByPk
     )
 
     // Delete item by productID
@@ -65,4 +76,4 @@ class PartnerRoute {
   }
 }
 
-export default new PartnerRoute().router
+export default new UserRoute().router

@@ -1,7 +1,7 @@
 import 'dotenv/config'
 import jwt from 'jsonwebtoken'
 import appConfig from '~/config/app.config'
-import { User } from '../models/hero-banner.model'
+import { User } from '../models/user.model'
 
 export const tokenGenerator = (payload: User): string => {
   const token = jwt.sign({ email: payload.email, password: payload.password }, appConfig.secret_key, {

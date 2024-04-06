@@ -16,16 +16,7 @@ class HeroBannerRoute {
       '/',
       validationRules([
         { field: 'title', fieldType: 'string', location: 'body' },
-        { field: 'imageUrl', fieldType: 'string', location: 'body' }
-      ]),
-      this.controller.createNewItem
-    )
-
-    this.router.post(
-      '/createOrUpdate/:id',
-      validationRules([
-        { field: 'id', fieldType: 'int', location: 'params' },
-        { field: 'title', fieldType: 'string', location: 'body' }
+        { field: 'imageId', fieldType: 'string', location: 'body' }
       ]),
       this.controller.createNewItem
     )

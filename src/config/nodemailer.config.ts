@@ -1,7 +1,7 @@
 import 'dotenv/config'
 import nodemailer from 'nodemailer'
 import Mail from 'nodemailer/lib/mailer'
-import { User } from '~/api/models/hero-banner.model'
+import { User } from '~/api/models/user.model'
 import appConfig from './app.config'
 
 export const transporter = nodemailer.createTransport({

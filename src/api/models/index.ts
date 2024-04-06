@@ -13,6 +13,7 @@ import PrizeSchema from './prize.model'
 import ProductSchema from './product.model'
 import ProjectSchema from './project.model'
 import RecruitmentPostSchema from './recruitment-post.model'
+import UserSchema from './user.model'
 
 const PATH = 'model/index'
 
@@ -35,6 +36,7 @@ class DBConnection {
     this.sequelize = new Sequelize(databaseConfig)
 
     this.sequelize?.addModels([
+      UserSchema,
       AttachmentSchema,
       CategorySchema,
       HeroBannerSchema,

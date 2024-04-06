@@ -1,7 +1,12 @@
+import compression from 'compression'
 import cors, { CorsOptions } from 'cors'
 import express, { Application } from 'express'
+import helmet from 'helmet'
+import morgan from 'morgan'
+import * as userService from '~/api/services/user.service'
 import { responseEnhancer } from '~/middleware/express-formatter/index'
 import { sequelizeInstance } from './api/models'
+import UserSchema from './api/models/user.model'
 import AppRoutes from './api/routes'
 import appConfig from './config/app.config'
 
@@ -13,6 +18,7 @@ export default class App {
     this.syncDatabase()
     // New app routes
     new AppRoutes(app)
+    this.createAdminIfNotExist()
   }
 
   private config(app: Application) {
@@ -23,10 +29,11 @@ export default class App {
     app.use(express.json())
     app.use(express.urlencoded({ extended: true }))
     // (helmet) helps secure Express apps by setting HTTP response headers.
-    // app.use(helmet())
-    // app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }))
+    app.use(morgan('dev'))
+    app.use(helmet())
+    app.use(compression())
+    app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }))
     // (morgan) HTTP request logger middleware for node.js
-    // app.use(morgan('dev'))
     // (cors) Provide some options Headers for accept others localhost to allow request
     app.use(cors(corsOptions))
     // Handle custom formatter response express (middleware)
@@ -35,6 +42,17 @@ export default class App {
 
   private syncDatabase() {
     sequelizeInstance?.sync()
+  }
+
+  private async createAdminIfNotExist() {
+    const count = await UserSchema.count()
+    if (count <= 0) {
+      await userService.createNewItem({
+        email: appConfig.nodemailer.admin_user,
+        password: appConfig.nodemailer.admin_password_original,
+        avatar: appConfig.nodemailer.admin_avatar
+      })
+    }
   }
 }
 

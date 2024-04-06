@@ -11,8 +11,7 @@ export default class HeroBannerController {
   createNewItem = async (req: Request, res: Response) => {
     try {
       const itemRequest: HeroBanner = {
-        title: req.body.title,
-        imageUrl: req.body.imageUrl
+        ...req.body
       }
       const itemNew = await service.createNewItem(itemRequest)
       if (itemNew) {
@@ -43,13 +42,12 @@ export default class HeroBannerController {
         ...req.body
       }
       const items = await service.getItems(bodyRequest)
-      const total = await service.getItemsWithStatus()
       return res.formatter.ok({
         data: items.rows,
         length: items.rows.length,
         page: Number(bodyRequest.paginator.page),
         pageSize: Number(bodyRequest.paginator.pageSize),
-        total: bodyRequest.search.term.length > 0 ? items.count : total.length,
+        total: items.count,
         message: message.SUCCESS
       })
     } catch (error) {
@@ -61,8 +59,7 @@ export default class HeroBannerController {
     try {
       const id = Number(req.params.id)
       const itemRequest: HeroBanner = {
-        title: req.body.title,
-        imageUrl: req.body.imageUrl
+        ...req.body
       }
       const itemUpdated = await service.updateItemByPk(id, itemRequest)
       if (itemUpdated) {

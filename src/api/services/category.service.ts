@@ -42,15 +42,6 @@ export const getItemsCount = async (): Promise<number> => {
   }
 }
 
-export const getItemsWithStatus = async (): Promise<CategorySchema[]> => {
-  try {
-    return await CategorySchema.findAll()
-  } catch (error) {
-    logging.error(NAMESPACE, `${error}`)
-    throw new Error(`${error}`)
-  }
-}
-
 // Get all
 export const getItems = async (body: RequestBodyType): Promise<{ count: number; rows: CategorySchema[] }> => {
   try {

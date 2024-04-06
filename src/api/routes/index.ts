@@ -1,6 +1,8 @@
 import { Application } from 'express'
 import attachmentRoute from './attachment.route'
+import authRoute from './auth/auth.route'
 import categoryRoute from './category.route'
+import googleRoute from './google/google.route'
 import heroBannerRoute from './hero-banner.route'
 import homeProductRoute from './home-product.route'
 import industrySectorRoute from './industry-sector.route'
@@ -11,9 +13,13 @@ import prizeRoute from './prize.route'
 import productRoute from './product.route'
 import projectRoute from './project.route'
 import recruitmentPostRoute from './recruitment-post.route'
+import userRoute from './user.route'
 
 export default class AppRoutes {
   constructor(app: Application) {
+    app.use('/api/users', userRoute)
+    app.use('/api/auth', authRoute)
+    app.use('/api/google', googleRoute)
     app.use('/api/hero-banners', heroBannerRoute)
     app.use('/api/home-products', homeProductRoute)
     app.use('/api/partners', partnerRoute)
