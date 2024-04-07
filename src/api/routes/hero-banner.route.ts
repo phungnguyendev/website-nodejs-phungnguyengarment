@@ -40,6 +40,8 @@ class HeroBannerRoute {
       this.controller.getItems
     )
 
+    this.router.post('/all', this.controller.updateList)
+
     // Update item by productID and importedID
     this.router.put(
       '/:id',
