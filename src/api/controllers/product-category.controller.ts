@@ -1,16 +1,16 @@
 import { Request, Response } from 'express'
-import * as service from '~/api/services/project.service'
-import { Project } from '~/models/project.model'
+import * as service from '~/api/services/product-category.service'
+import { ProductCategory } from '~/models/product-category.model'
 import { RequestBodyType } from '~/type'
 import { message } from '../utils/constant'
 
-const NAMESPACE = 'controllers/project'
+const NAMESPACE = 'controllers/product-category'
 
-export default class ProjectController {
+export default class ProductCategoryController {
   constructor() {}
   createNewItem = async (req: Request, res: Response) => {
     try {
-      const itemRequest: Project = {
+      const itemRequest: ProductCategory = {
         ...req.body
       }
       const itemNew = await service.createNewItem(itemRequest)
@@ -55,24 +55,10 @@ export default class ProjectController {
     }
   }
 
-  updateList = async (req: Request, res: Response) => {
-    try {
-      const itemRequest: Project[] = req.body
-      // return res.formatter.ok({ data: itemRequest, message: message.UPDATED })
-      const itemUpdated = await service.updateList(itemRequest)
-      if (itemUpdated) {
-        return res.formatter.ok({ data: itemUpdated, message: message.UPDATED })
-      }
-      return res.formatter.badRequest({ message: message.UPDATE_FAILED })
-    } catch (error) {
-      return res.formatter.badRequest({ message: `${error}` })
-    }
-  }
-
   updateItemByPk = async (req: Request, res: Response) => {
     try {
       const id = Number(req.params.id)
-      const itemRequest: Project = {
+      const itemRequest: ProductCategory = {
         ...req.body
       }
       const itemUpdated = await service.updateItemByPk(id, itemRequest)

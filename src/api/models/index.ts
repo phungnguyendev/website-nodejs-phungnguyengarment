@@ -14,6 +14,7 @@ import ProductSchema from './product.model'
 import ProjectSchema from './project.model'
 import RecruitmentPostSchema from './recruitment-post.model'
 import UserSchema from './user.model'
+import ProductCategorySchema from './product-category.model'
 
 const PATH = 'model/index'
 
@@ -47,6 +48,7 @@ class DBConnection {
       PostSchema,
       PrizeSchema,
       ProductSchema,
+      ProductCategorySchema,
       ProjectSchema,
       RecruitmentPostSchema
     ])

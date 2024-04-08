@@ -47,7 +47,7 @@ export default class UserController {
       const jwtVerified = <any>jwt.verify(userFromAccessToken.accessToken, appConfig.secret_key)
       if (!jwtVerified) res.formatter.unauthorized({ message: 'Can not verify access token, please login again!' })
       const { email, password } = jwtVerified
-      const userFound = await service.getItemBy({ email: email })
+      const userFound = await service.getItemBy({ email, password })
       if (!userFound) return res.formatter.notFound({ message: `Can not find user on database with email: ${email}` })
       return res.formatter.ok({ data: userFromAccessToken })
     } catch (error) {

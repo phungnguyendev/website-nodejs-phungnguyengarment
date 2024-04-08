@@ -1,11 +1,10 @@
-import { AfterCreate, Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript'
-import CategorySchema from './category.model'
+import { AfterCreate, Column, DataType, HasOne, Model, Table } from 'sequelize-typescript'
+import ProductCategorySchema from './product-category.model'
 
 const { INTEGER, STRING } = DataType
 
 export interface Product {
   id?: number
-  categoryID?: number
   title?: string
   desc?: string
   imageId?: string
@@ -21,10 +20,6 @@ export default class ProductSchema extends Model<Product> {
   @Column({ type: INTEGER, primaryKey: true, autoIncrement: true, field: 'id' })
   declare id: number
 
-  @Column({ type: INTEGER, field: 'id' })
-  @ForeignKey(() => CategorySchema)
-  declare categoryID: number
-
   @Column({ type: STRING, field: 'title' })
   declare title: string
 
@@ -36,6 +31,9 @@ export default class ProductSchema extends Model<Product> {
 
   @Column({ type: INTEGER, field: 'order_number' })
   declare orderNumber: number
+
+  @HasOne(() => ProductCategorySchema)
+  declare productCategory: ProductCategorySchema
 
   @AfterCreate
   static async afterCreateHook(instance: ProductSchema) {

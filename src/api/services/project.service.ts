@@ -58,6 +58,24 @@ export const getItems = async (body: RequestBodyType): Promise<{ count: number; 
   }
 }
 
+export const updateList = async (itemsUpdate: Project[]): Promise<Project[] | undefined> => {
+  try {
+    itemsUpdate.forEach(async (item) => {
+      await ProjectSchema.update({ ...item }, { where: { id: item.id } })
+        .then((affectedCount) => {
+          if (!(affectedCount[0] > 0)) throw new Error(`Update failed`)
+        })
+        .catch((e) => {
+          throw new Error(`${e}`)
+        })
+    })
+    return itemsUpdate
+  } catch (error) {
+    logging.error(NAMESPACE, `${error}`)
+    throw `${error}`
+  }
+}
+
 // Update by productID
 export const updateItemByPk = async (id: number, itemToUpdate: Project): Promise<Project | undefined> => {
   try {

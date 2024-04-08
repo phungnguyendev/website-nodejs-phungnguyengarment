@@ -1,4 +1,4 @@
-import { AfterCreate, Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript'
+import { BelongsTo, Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript'
 import AttachmentSchema from './attachment.model'
 import PostSchema from './post.model'
 
@@ -8,9 +8,6 @@ export interface PostAttachment {
   id?: number
   postID?: number
   attachmentID?: number
-  url?: string
-  type?: string
-  orderNumber?: number
 }
 
 @Table({
@@ -22,21 +19,17 @@ export default class PostAttachmentSchema extends Model<PostAttachment> {
   @Column({ type: INTEGER, primaryKey: true, autoIncrement: true, field: 'id' })
   declare id: number
 
-  @Column({ type: INTEGER, field: 'id' })
+  @Column({ type: INTEGER, field: 'post_id' })
   @ForeignKey(() => PostSchema)
   declare postID: number
 
-  @Column({ type: INTEGER, field: 'id' })
+  @Column({ type: INTEGER, field: 'attachment_id' })
   @ForeignKey(() => AttachmentSchema)
   declare attachmentID: number
 
-  @Column({ type: INTEGER, field: 'order_number' })
-  declare orderNumber: number
+  @BelongsTo(() => PostSchema)
+  declare post: PostSchema
 
-  @AfterCreate
-  static async afterCreateHook(instance: PostAttachmentSchema) {
-    // You can perform additional actions here
-    const count = await PostAttachmentSchema.count()
-    await instance.update({ orderNumber: count })
-  }
+  @BelongsTo(() => AttachmentSchema)
+  declare attachment: AttachmentSchema
 }

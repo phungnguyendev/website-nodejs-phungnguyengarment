@@ -10,6 +10,7 @@ import partnerRoute from './partner.route'
 import postAttachmentRoute from './post-attachment.route'
 import postRoute from './post.route'
 import prizeRoute from './prize.route'
+import productCategoryRoute from './product-category.route'
 import productRoute from './product.route'
 import projectRoute from './project.route'
 import recruitmentPostRoute from './recruitment-post.route'
@@ -27,6 +28,7 @@ export default class AppRoutes {
     app.use('/api/projects', projectRoute)
     app.use('/api/categories', categoryRoute)
     app.use('/api/products', productRoute)
+    app.use('/api/product-categories', productCategoryRoute)
     app.use('/api/posts', postRoute)
     app.use('/api/post-attachments', postAttachmentRoute)
     app.use('/api/attachments', attachmentRoute)

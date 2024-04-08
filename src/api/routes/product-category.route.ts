@@ -1,10 +1,10 @@
 import { Router } from 'express'
-import ProductController from '../controllers/product.controller'
+import ProductCategoryController from '../controllers/product-category.controller'
 import { validationRules } from '../middleware/request-validator'
 
-class ProductRoute {
+class ProductCategoryRoute {
   router = Router()
-  controller = new ProductController()
+  controller = new ProductCategoryController()
 
   constructor() {
     this.initialize()
@@ -15,14 +15,13 @@ class ProductRoute {
     this.router.post(
       '/',
       validationRules([
-        { field: 'title', fieldType: 'string', location: 'body' },
-        { field: 'imageId', fieldType: 'string', location: 'body' },
+        { field: 'productID', fieldType: 'int', location: 'body' },
         { field: 'categoryID', fieldType: 'int', location: 'body' }
       ]),
       this.controller.createNewItem
     )
 
-    // Get item by productID and importedID
+    // Get item by productCategoryID and importedID
     this.router.get(
       '/:id',
       validationRules([{ field: 'id', fieldType: 'int', location: 'params' }]),
@@ -41,16 +40,14 @@ class ProductRoute {
       this.controller.getItems
     )
 
-    this.router.post('/all', this.controller.updateList)
-
-    // Update item by productID and importedID
+    // Update item by productCategoryID and importedID
     this.router.put(
       '/:id',
       validationRules([{ field: 'id', fieldType: 'int', location: 'params' }]),
       this.controller.updateItemByPk
     )
 
-    // Delete item by productID
+    // Delete item by productCategoryID
     this.router.delete(
       '/:id',
       validationRules([{ field: 'id', fieldType: 'int', location: 'params' }]),
@@ -59,4 +56,4 @@ class ProductRoute {
   }
 }
 
-export default new ProductRoute().router
+export default new ProductCategoryRoute().router

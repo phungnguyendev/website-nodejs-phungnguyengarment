@@ -1,13 +1,13 @@
 import { RequestBodyType } from '~/type'
 import logging from '~/utils/logging'
 import { buildDynamicQuery } from '../helpers/query'
-import ProjectSchema, { Project } from '../models/project.model'
+import ProductSchema, { Product } from '../models/product.model'
 
-const NAMESPACE = 'services/project'
+const NAMESPACE = 'services/product'
 
-export const createNewItem = async (item: Project): Promise<ProjectSchema> => {
+export const createNewItem = async (item: Product): Promise<ProductSchema> => {
   try {
-    return await ProjectSchema.create(item)
+    return await ProductSchema.create(item)
   } catch (error) {
     logging.error(NAMESPACE, `${error}`)
     throw `${error}`
@@ -15,18 +15,18 @@ export const createNewItem = async (item: Project): Promise<ProjectSchema> => {
 }
 
 // Get by id
-export const getItemByPk = async (id: number): Promise<ProjectSchema | null> => {
+export const getItemByPk = async (id: number): Promise<ProductSchema | null> => {
   try {
-    return await ProjectSchema.findByPk(id)
+    return await ProductSchema.findByPk(id)
   } catch (error) {
     logging.error(NAMESPACE, `${error}`)
     throw `${error}`
   }
 }
 
-export const getItemBy = async (item: Project): Promise<ProjectSchema | null> => {
+export const getItemBy = async (item: Product): Promise<ProductSchema | null> => {
   try {
-    return await ProjectSchema.findOne({ where: { ...item } })
+    return await ProductSchema.findOne({ where: { ...item } })
   } catch (error) {
     logging.error(NAMESPACE, `${error}`)
     throw `${error}`
@@ -35,7 +35,7 @@ export const getItemBy = async (item: Project): Promise<ProjectSchema | null> =>
 
 export const getItemsCount = async (): Promise<number> => {
   try {
-    return await ProjectSchema.count()
+    return await ProductSchema.count()
   } catch (error) {
     logging.error(NAMESPACE, `${error}`)
     throw new Error(`${error}`)
@@ -43,13 +43,13 @@ export const getItemsCount = async (): Promise<number> => {
 }
 
 // Get all
-export const getItems = async (body: RequestBodyType): Promise<{ count: number; rows: ProjectSchema[] }> => {
+export const getItems = async (body: RequestBodyType): Promise<{ count: number; rows: ProductSchema[] }> => {
   try {
-    const items = await ProjectSchema.findAndCountAll({
+    const items = await ProductSchema.findAndCountAll({
       offset: (Number(body.paginator.page) - 1) * Number(body.paginator.pageSize),
       limit: body.paginator.pageSize === -1 ? undefined : body.paginator.pageSize,
       order: [[body.sorting.column, body.sorting.direction]],
-      where: buildDynamicQuery<Project>(body)
+      where: buildDynamicQuery<Product>(body)
     })
     return items
   } catch (error) {
@@ -58,10 +58,28 @@ export const getItems = async (body: RequestBodyType): Promise<{ count: number; 
   }
 }
 
-// Update by productID
-export const updateItemByPk = async (id: number, itemToUpdate: Project): Promise<Project | undefined> => {
+export const updateList = async (itemsUpdate: Product[]): Promise<Product[] | undefined> => {
   try {
-    const affectedRows = await ProjectSchema.update(
+    itemsUpdate.forEach(async (item) => {
+      await ProductSchema.update({ ...item }, { where: { id: item.id } })
+        .then((affectedCount) => {
+          if (!(affectedCount[0] > 0)) throw new Error(`Update failed`)
+        })
+        .catch((e) => {
+          throw new Error(`${e}`)
+        })
+    })
+    return itemsUpdate
+  } catch (error) {
+    logging.error(NAMESPACE, `${error}`)
+    throw `${error}`
+  }
+}
+
+// Update by productID
+export const updateItemByPk = async (id: number, itemToUpdate: Product): Promise<Product | undefined> => {
+  try {
+    const affectedRows = await ProductSchema.update(
       {
         ...itemToUpdate
       },
@@ -81,7 +99,7 @@ export const updateItemByPk = async (id: number, itemToUpdate: Project): Promise
 // Delete importedID
 export const deleteItemByPk = async (id: number): Promise<number> => {
   try {
-    return await ProjectSchema.destroy({ where: { id: id } })
+    return await ProductSchema.destroy({ where: { id: id } })
   } catch (error) {
     logging.error(NAMESPACE, `${error}`)
     throw `${error}`

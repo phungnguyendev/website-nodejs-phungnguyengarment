@@ -23,7 +23,7 @@ export default class App {
 
   private config(app: Application) {
     const corsOptions: CorsOptions = {
-      origin: ['http://localhost:5173']
+      origin: ['http://localhost:5173', 'http://localhost:3056']
     }
     // Accept json body request
     app.use(express.json())
