@@ -21,15 +21,6 @@ class PrizeRoute {
       this.controller.createNewItem
     )
 
-    this.router.post(
-      '/createOrUpdate/:id',
-      validationRules([
-        { field: 'id', fieldType: 'int', location: 'params' },
-        { field: 'title', fieldType: 'string', location: 'body' }
-      ]),
-      this.controller.createNewItem
-    )
-
     // Get item by productID and importedID
     this.router.get(
       '/:id',
@@ -48,6 +39,8 @@ class PrizeRoute {
       ]),
       this.controller.getItems
     )
+
+    this.router.post('/all', this.controller.updateList)
 
     // Update item by productID and importedID
     this.router.put(

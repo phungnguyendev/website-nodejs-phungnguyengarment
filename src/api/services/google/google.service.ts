@@ -1,12 +1,12 @@
+import { randomUUID } from 'crypto'
 import fs from 'fs'
-import { fromString } from 'uuidv4'
 import appConfig from '~/config/app.config'
 import { driveService, oauth2Client } from '~/config/googleapis.config'
 
 export const googleDriveUploadTo = async (file: Express.Multer.File): Promise<any> => {
   try {
     const fileMetadata = {
-      name: fromString(file.originalname),
+      name: `${randomUUID()}`,
       parents: [String(appConfig.googleapis.parentFolder)] // Change it according to your desired parent folder id
     }
 

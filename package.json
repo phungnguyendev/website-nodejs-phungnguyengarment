@@ -44,6 +44,7 @@
     "@types/node": "^20.8.10",
     "@types/nodemailer": "^6.4.14",
     "@types/sequelize": "^4.28.15",
+    "@types/uuid": "^9.0.8",
     "@types/validator": "^13.11.2",
     "@typescript-eslint/eslint-plugin": "^6.7.5",
     "@typescript-eslint/parser": "^6.7.5",
@@ -62,6 +63,6 @@
     "tsc-alias": "^1.8.8",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.2.2",
-    "uuidv4": "^6.2.13"
+    "uuid": "^9.0.1"
   }
 }
