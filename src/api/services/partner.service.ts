@@ -58,6 +58,28 @@ export const getItems = async (body: RequestBodyType): Promise<{ count: number; 
   }
 }
 
+export const updateList = async (itemsUpdate: Partner[]): Promise<Partner[] | undefined> => {
+  try {
+    itemsUpdate.forEach(async (item) => {
+      await PartnerSchema.update({ ...item }, { where: { id: item.id } })
+        .then((affectedCount) => {
+          if (!(affectedCount[0] > 0)) throw new Error(`Update failed`)
+        })
+        .catch((e) => {
+          throw new Error(`${e}`)
+        })
+    })
+    // const updatedRows = itemsUpdate.map(async (item) => {
+    //   await PartnerSchema.update({ ...item }, { where: { id: item.id } })
+    // })
+    // console.log(updatedRows)
+    return itemsUpdate
+  } catch (error) {
+    logging.error(NAMESPACE, `${error}`)
+    throw `${error}`
+  }
+}
+
 // Update by productID
 export const updateItemByPk = async (id: number, itemToUpdate: Partner): Promise<Partner | undefined> => {
   try {

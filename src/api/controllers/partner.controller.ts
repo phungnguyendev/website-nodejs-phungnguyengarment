@@ -11,8 +11,7 @@ export default class PartnerController {
   createNewItem = async (req: Request, res: Response) => {
     try {
       const itemRequest: Partner = {
-        title: req.body.title,
-        imageId: req.body.imageId
+        ...req.body
       }
       const itemNew = await service.createNewItem(itemRequest)
       if (itemNew) {
@@ -56,12 +55,25 @@ export default class PartnerController {
     }
   }
 
+  updateList = async (req: Request, res: Response) => {
+    try {
+      const itemRequest: Partner[] = req.body
+      // return res.formatter.ok({ data: itemRequest, message: message.UPDATED })
+      const itemUpdated = await service.updateList(itemRequest)
+      if (itemUpdated) {
+        return res.formatter.ok({ data: itemUpdated, message: message.UPDATED })
+      }
+      return res.formatter.badRequest({ message: message.UPDATE_FAILED })
+    } catch (error) {
+      return res.formatter.badRequest({ message: `${error}` })
+    }
+  }
+
   updateItemByPk = async (req: Request, res: Response) => {
     try {
       const id = Number(req.params.id)
       const itemRequest: Partner = {
-        title: req.body.title,
-        imageId: req.body.imageId
+        ...req.body
       }
       const itemUpdated = await service.updateItemByPk(id, itemRequest)
       if (itemUpdated) {

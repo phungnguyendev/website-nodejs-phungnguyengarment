@@ -7,7 +7,7 @@ const NAMESPACE = 'services/home-product'
 
 export const createNewItem = async (item: HomeProduct): Promise<HomeProductSchema> => {
   try {
-    return await HomeProductSchema.create({ ...item })
+    return await HomeProductSchema.create(item)
   } catch (error) {
     logging.error(NAMESPACE, `${error}`)
     throw `${error}`
@@ -52,6 +52,28 @@ export const getItems = async (body: RequestBodyType): Promise<{ count: number; 
       where: buildDynamicQuery<HomeProduct>(body)
     })
     return items
+  } catch (error) {
+    logging.error(NAMESPACE, `${error}`)
+    throw `${error}`
+  }
+}
+
+export const updateList = async (itemsUpdate: HomeProduct[]): Promise<HomeProduct[] | undefined> => {
+  try {
+    itemsUpdate.forEach(async (item) => {
+      await HomeProductSchema.update({ ...item }, { where: { id: item.id } })
+        .then((affectedCount) => {
+          if (!(affectedCount[0] > 0)) throw new Error(`Update failed`)
+        })
+        .catch((e) => {
+          throw new Error(`${e}`)
+        })
+    })
+    // const updatedRows = itemsUpdate.map(async (item) => {
+    //   await HomeProductSchema.update({ ...item }, { where: { id: item.id } })
+    // })
+    // console.log(updatedRows)
+    return itemsUpdate
   } catch (error) {
     logging.error(NAMESPACE, `${error}`)
     throw `${error}`
