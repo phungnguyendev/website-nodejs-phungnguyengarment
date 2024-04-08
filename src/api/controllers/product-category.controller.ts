@@ -2,6 +2,8 @@ import { Request, Response } from 'express'
 import * as service from '~/api/services/product-category.service'
 import { ProductCategory } from '~/models/product-category.model'
 import { RequestBodyType } from '~/type'
+import { Category } from '../models/category.model'
+import { Product } from '../models/product.model'
 import { message } from '../utils/constant'
 
 const NAMESPACE = 'controllers/product-category'
@@ -62,6 +64,34 @@ export default class ProductCategoryController {
         ...req.body
       }
       const itemUpdated = await service.updateItemByPk(id, itemRequest)
+      if (itemUpdated) {
+        return res.formatter.ok({ data: itemUpdated, message: message.UPDATED })
+      }
+      return res.formatter.badRequest({ message: message.UPDATE_FAILED })
+    } catch (error) {
+      return res.formatter.badRequest({ message: `${error}` })
+    }
+  }
+
+  updateItemByCategoryID = async (req: Request, res: Response) => {
+    try {
+      const categoryID = Number(req.params.categoryID)
+      const productToUpdate: Product = req.body
+      const itemUpdated = await service.updateItemBy({ field: 'categoryID', id: categoryID }, { ...productToUpdate })
+      if (itemUpdated) {
+        return res.formatter.ok({ data: itemUpdated, message: message.UPDATED })
+      }
+      return res.formatter.badRequest({ message: message.UPDATE_FAILED })
+    } catch (error) {
+      return res.formatter.badRequest({ message: `${error}` })
+    }
+  }
+
+  updateItemByProductID = async (req: Request, res: Response) => {
+    try {
+      const productID = Number(req.params.productID)
+      const categoryToUpdate: Category = req.body
+      const itemUpdated = await service.updateItemBy({ field: 'productID', id: productID }, { ...categoryToUpdate })
       if (itemUpdated) {
         return res.formatter.ok({ data: itemUpdated, message: message.UPDATED })
       }

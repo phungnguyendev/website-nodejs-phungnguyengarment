@@ -47,6 +47,18 @@ class ProductCategoryRoute {
       this.controller.updateItemByPk
     )
 
+    this.router.put(
+      '/categoryID/:categoryID',
+      validationRules([{ field: 'categoryID', fieldType: 'int', location: 'params' }]),
+      this.controller.updateItemByCategoryID
+    )
+
+    this.router.put(
+      '/productID/:productID',
+      validationRules([{ field: 'productID', fieldType: 'int', location: 'params' }]),
+      this.controller.updateItemByProductID
+    )
+
     // Delete item by productCategoryID
     this.router.delete(
       '/:id',

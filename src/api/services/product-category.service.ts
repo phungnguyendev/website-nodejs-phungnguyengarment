@@ -81,6 +81,31 @@ export const updateItemByPk = async (
   }
 }
 
+export const updateItemBy = async (
+  query: {
+    field: string
+    id: number
+  },
+  itemToUpdate: ProductCategory
+): Promise<ProductCategory | undefined> => {
+  try {
+    const affectedRows = await ProductCategorySchema.update(
+      {
+        ...itemToUpdate
+      },
+      {
+        where: {
+          [query.field]: query.id
+        }
+      }
+    )
+    return affectedRows[0] > 0 ? itemToUpdate : undefined
+  } catch (error) {
+    logging.error(NAMESPACE, `${error}`)
+    throw `${error}`
+  }
+}
+
 // Delete importedID
 export const deleteItemByPk = async (id: number): Promise<number> => {
   try {
