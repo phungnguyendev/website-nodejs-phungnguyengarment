@@ -1,4 +1,4 @@
-import { AfterCreate, Column, DataType, HasOne, Model, Table } from 'sequelize-typescript'
+import { AfterCreate, Column, DataType, HasMany, Model, Table } from 'sequelize-typescript'
 import PostAttachmentSchema from './post-attachment.model'
 
 const { INTEGER, STRING } = DataType
@@ -7,6 +7,7 @@ export interface Post {
   id?: number
   title?: string
   content?: string
+  thumbID?: string
   publishedAt?: string
   orderNumber?: number
 }
@@ -26,6 +27,9 @@ export default class PostSchema extends Model<Post> {
   @Column({ type: STRING, field: 'content' })
   declare content: string
 
+  @Column({ type: STRING, field: 'thumb_id' })
+  declare thumbID: string
+
   @Column({ type: STRING, field: 'published_at' })
   declare publishedAt: string
 
@@ -39,6 +43,6 @@ export default class PostSchema extends Model<Post> {
     await instance.update({ orderNumber: count })
   }
 
-  @HasOne(() => PostAttachmentSchema)
+  @HasMany(() => PostAttachmentSchema)
   declare postAttachment: PostAttachmentSchema
 }

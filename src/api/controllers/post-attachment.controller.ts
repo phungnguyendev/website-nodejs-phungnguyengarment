@@ -56,6 +56,20 @@ export default class PostAttachmentController {
     }
   }
 
+  updateList = async (req: Request, res: Response) => {
+    try {
+      const itemRequest: PostAttachment[] = req.body
+      // return res.formatter.ok({ data: itemRequest, message: message.UPDATED })
+      const itemUpdated = await service.updateList(itemRequest)
+      if (itemUpdated) {
+        return res.formatter.ok({ data: itemUpdated, message: message.UPDATED })
+      }
+      return res.formatter.badRequest({ message: message.UPDATE_FAILED })
+    } catch (error) {
+      return res.formatter.badRequest({ message: `${error}` })
+    }
+  }
+
   updateItemByPk = async (req: Request, res: Response) => {
     try {
       const id = Number(req.params.id)

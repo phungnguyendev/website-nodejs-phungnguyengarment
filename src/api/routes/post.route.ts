@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import PostController from '../controllers/prize.controller'
+import PostController from '../controllers/post.controller'
 import { validationRules } from '../middleware/request-validator'
 
 class PostRoute {
@@ -17,14 +17,9 @@ class PostRoute {
       validationRules([
         { field: 'title', fieldType: 'string', location: 'body' },
         { field: 'content', fieldType: 'string', location: 'body' },
+        { field: 'thumbID', fieldType: 'string', location: 'body' },
         { field: 'publishedAt', fieldType: 'string', location: 'body' }
       ]),
-      this.controller.createNewItem
-    )
-
-    this.router.post(
-      '/createOrUpdate/:id',
-      validationRules([{ field: 'id', fieldType: 'int', location: 'params' }]),
       this.controller.createNewItem
     )
 
@@ -46,6 +41,8 @@ class PostRoute {
       ]),
       this.controller.getItems
     )
+
+    this.router.post('/all', this.controller.updateList)
 
     // Update item by productID and importedID
     this.router.put(
