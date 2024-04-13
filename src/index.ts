@@ -26,8 +26,8 @@ export default class App {
       origin: ['http://localhost:5173', 'http://localhost:3056']
     }
     // Accept json body request
-    app.use(express.json())
-    app.use(express.urlencoded({ extended: true }))
+    app.use(express.json({ limit: '50mb' }))
+    app.use(express.urlencoded({ extended: true, limit: '50mb' }))
     // (helmet) helps secure Express apps by setting HTTP response headers.
     app.use(morgan('dev'))
     app.use(helmet())

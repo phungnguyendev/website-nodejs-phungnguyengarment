@@ -16,8 +16,8 @@ class PostRoute {
       '/',
       validationRules([
         { field: 'title', fieldType: 'string', location: 'body' },
-        { field: 'content', fieldType: 'string', location: 'body' },
         { field: 'thumbID', fieldType: 'string', location: 'body' },
+        { field: 'content', fieldType: 'string', location: 'body' },
         { field: 'publishedAt', fieldType: 'string', location: 'body' }
       ]),
       this.controller.createNewItem

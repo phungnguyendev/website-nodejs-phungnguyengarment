@@ -1,7 +1,7 @@
 import { AfterCreate, Column, DataType, HasMany, Model, Table } from 'sequelize-typescript'
 import PostAttachmentSchema from './post-attachment.model'
 
-const { INTEGER, STRING } = DataType
+const { INTEGER, STRING, BLOB } = DataType
 
 export interface Post {
   id?: number
@@ -24,7 +24,7 @@ export default class PostSchema extends Model<Post> {
   @Column({ type: STRING, field: 'title' })
   declare title: string
 
-  @Column({ type: STRING, field: 'content' })
+  @Column({ type: STRING(10000), field: 'content' })
   declare content: string
 
   @Column({ type: STRING, field: 'thumb_id' })

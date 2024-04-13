@@ -42,8 +42,14 @@ export default class PostController {
         ...req.body
       }
       const items = await service.getItems(bodyRequest)
+      const data = items.rows.map((item) => {
+        return item.dataValues
+      })
       return res.formatter.ok({
-        data: items.rows,
+        // data: data.map((item) => {
+        //   return item.content ? { ...item, content: `${Buffer.from(item.content!).toString('latin1')}` } : { ...item }
+        // }),
+        data: data,
         length: items.rows.length,
         page: Number(bodyRequest.paginator.page),
         pageSize: Number(bodyRequest.paginator.pageSize),

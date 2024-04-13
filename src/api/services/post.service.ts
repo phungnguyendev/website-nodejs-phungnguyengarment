@@ -7,7 +7,7 @@ const NAMESPACE = 'services/post'
 
 export const createNewItem = async (item: Post): Promise<PostSchema> => {
   try {
-    return await PostSchema.create(item)
+    return await PostSchema.create({ ...item })
   } catch (error) {
     logging.error(NAMESPACE, `${error}`)
     throw `${error}`
