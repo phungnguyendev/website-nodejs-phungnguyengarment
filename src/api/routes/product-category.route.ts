@@ -1,71 +1,53 @@
 import { Router } from 'express'
-import ProductCategoryController from '../controllers/product-category.controller'
+import * as controller from '~/controllers/product-category.controller'
 import { validationRules } from '../middleware/request-validator'
 
-class ProductCategoryRoute {
-  router = Router()
-  controller = new ProductCategoryController()
+const router = Router()
+// Create new item
+router.post(
+  '/',
+  validationRules([
+    { field: 'productID', fieldType: 'int', location: 'body' },
+    { field: 'categoryID', fieldType: 'int', location: 'body' }
+  ]),
+  controller.createNewItem
+)
 
-  constructor() {
-    this.initialize()
-  }
+// Get item by productCategoryID and importedID
+router.get('/:id', validationRules([{ field: 'id', fieldType: 'int', location: 'params' }]), controller.getItemByPk)
 
-  private initialize() {
-    // Create new item
-    this.router.post(
-      '/',
-      validationRules([
-        { field: 'productID', fieldType: 'int', location: 'body' },
-        { field: 'categoryID', fieldType: 'int', location: 'body' }
-      ]),
-      this.controller.createNewItem
-    )
+// Get all items
+router.post(
+  '/find',
+  validationRules([
+    { field: 'filter', fieldType: 'object', location: 'body' },
+    { field: 'paginator', fieldType: 'object', location: 'body' },
+    { field: 'search', fieldType: 'object', location: 'body' },
+    { field: 'sorting', fieldType: 'object', location: 'body' }
+  ]),
+  controller.getItems
+)
 
-    // Get item by productCategoryID and importedID
-    this.router.get(
-      '/:id',
-      validationRules([{ field: 'id', fieldType: 'int', location: 'params' }]),
-      this.controller.getItemByPk
-    )
+// Update item by productCategoryID and importedID
+router.put('/:id', validationRules([{ field: 'id', fieldType: 'int', location: 'params' }]), controller.updateItemByPk)
 
-    // Get all items
-    this.router.post(
-      '/find',
-      validationRules([
-        { field: 'filter', fieldType: 'object', location: 'body' },
-        { field: 'paginator', fieldType: 'object', location: 'body' },
-        { field: 'search', fieldType: 'object', location: 'body' },
-        { field: 'sorting', fieldType: 'object', location: 'body' }
-      ]),
-      this.controller.getItems
-    )
+router.put(
+  '/categoryID/:categoryID',
+  validationRules([{ field: 'categoryID', fieldType: 'int', location: 'params' }]),
+  controller.updateItemByCategoryID
+)
 
-    // Update item by productCategoryID and importedID
-    this.router.put(
-      '/:id',
-      validationRules([{ field: 'id', fieldType: 'int', location: 'params' }]),
-      this.controller.updateItemByPk
-    )
+router.put(
+  '/productID/:productID',
+  validationRules([{ field: 'productID', fieldType: 'int', location: 'params' }]),
+  controller.updateItemByProductID
+)
 
-    this.router.put(
-      '/categoryID/:categoryID',
-      validationRules([{ field: 'categoryID', fieldType: 'int', location: 'params' }]),
-      this.controller.updateItemByCategoryID
-    )
+// Delete item by productCategoryID
+router.delete(
+  '/:id',
+  validationRules([{ field: 'id', fieldType: 'int', location: 'params' }]),
+  controller.deleteItemByPk
+)
 
-    this.router.put(
-      '/productID/:productID',
-      validationRules([{ field: 'productID', fieldType: 'int', location: 'params' }]),
-      this.controller.updateItemByProductID
-    )
-
-    // Delete item by productCategoryID
-    this.router.delete(
-      '/:id',
-      validationRules([{ field: 'id', fieldType: 'int', location: 'params' }]),
-      this.controller.deleteItemByPk
-    )
-  }
-}
-
-export default new ProductCategoryRoute().router
+export default router

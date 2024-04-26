@@ -1,23 +1,20 @@
 import { randomUUID } from 'crypto'
 import fs from 'fs'
 import appConfig from '~/config/app.config'
-import { driveService, oauth2Client } from '~/config/googleapis.config'
+import { driveService, oauth2Client } from '~/config/google.config'
 
 export const googleDriveUploadTo = async (file: Express.Multer.File): Promise<any> => {
   try {
     const fileMetadata = {
       name: `${randomUUID()}`,
-      parents: [String(appConfig.googleapis.parentFolder)] // Change it according to your desired parent folder id
+      parents: [String(appConfig.google.parentFolder)] // Change it according to your desired parent folder id
     }
 
     const media = {
       mimeType: file.mimetype,
       body: fs.createReadStream(file.path)
     }
-
-    const auth = oauth2Client()
-
-    const response = await driveService(auth).files.create({
+    const response = await driveService.files.create({
       requestBody: fileMetadata,
       media: media
     })
@@ -30,9 +27,7 @@ export const googleDriveUploadTo = async (file: Express.Multer.File): Promise<an
 
 export const googleDriveDeleteFile = async (fileId: string): Promise<any> => {
   try {
-    const auth = oauth2Client()
-
-    const response = await driveService(auth).files.delete({
+    const response = await driveService.files.delete({
       fileId
     })
 
@@ -44,11 +39,7 @@ export const googleDriveDeleteFile = async (fileId: string): Promise<any> => {
 
 export const googleDriveGeneratePublicUrl = async (fileId: string): Promise<any> => {
   try {
-    const auth = oauth2Client()
-
-    const drive = driveService(auth)
-
-    await drive.permissions.create({
+    await driveService.permissions.create({
       fileId: fileId,
       requestBody: {
         role: 'reader',
@@ -56,7 +47,7 @@ export const googleDriveGeneratePublicUrl = async (fileId: string): Promise<any>
       }
     })
 
-    const response = await drive.files.get({
+    const response = await driveService.files.get({
       fileId: fileId,
       fields: 'webViewLink, webContentLink'
     })

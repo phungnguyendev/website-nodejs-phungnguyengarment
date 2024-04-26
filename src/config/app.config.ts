@@ -4,9 +4,10 @@ const appConfig = {
   app_name: process.env.APP_NAME ?? '',
   company_name: process.env.COMPANY_NAME ?? '',
   secret_key: process.env.SECRET_KEY ?? '',
+  clientURL: process.env.CLIENT_URL ?? '',
   server: {
-    server_host: process.env.SERVER_HOST ?? '',
-    server_port: process.env.SERVER_PORT ?? 8001,
+    server_host: process.env.HOST ?? '',
+    server_port: process.env.PORT ?? 5001,
     server_url: process.env.SERVER_URL ?? ''
   },
   database: {
@@ -22,12 +23,12 @@ const appConfig = {
     admin_password_original: process.env.MAIL_PASSWORD_ORIGINAL ?? '',
     admin_avatar: process.env.MAIL_ADMIN_AVATAR ?? ''
   },
-  googleapis: {
-    clientID: process.env.CLIENT_ID ?? '',
-    clientSecret: process.env.CLIENT_SECRET ?? '',
-    redirectUrl: process.env.REDIRECT_URL ?? '',
-    refreshToken: process.env.REFRESH_TOKEN ?? '',
-    parentFolder: process.env.DRIVE_PARENT_FOLDER_ID ?? ''
+  google: {
+    clientID: process.env.GOOGLE_CLIENT_ID ?? '',
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? '',
+    redirectUrl: process.env.GOOGLE_REDIRECT_URL ?? '',
+    refreshToken: process.env.GOOGLE_REFRESH_TOKEN ?? '',
+    parentFolder: process.env.GOOGLE_DRIVE_PARENT_FOLDER_ID ?? ''
   }
 }
 

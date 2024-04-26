@@ -1,4 +1,4 @@
-import { Application } from 'express'
+import { Router } from 'express'
 import attachmentRoute from './attachment.route'
 import authRoute from './auth/auth.route'
 import categoryRoute from './category.route'
@@ -14,25 +14,23 @@ import productCategoryRoute from './product-category.route'
 import productRoute from './product.route'
 import projectRoute from './project.route'
 import recruitmentPostRoute from './recruitment-post.route'
-import userRoute from './user.route'
 
-export default class AppRoutes {
-  constructor(app: Application) {
-    app.use('/api/users', userRoute)
-    app.use('/api/auth', authRoute)
-    app.use('/api/google', googleRoute)
-    app.use('/api/hero-banners', heroBannerRoute)
-    app.use('/api/home-products', homeProductRoute)
-    app.use('/api/partners', partnerRoute)
-    app.use('/api/prizes', prizeRoute)
-    app.use('/api/projects', projectRoute)
-    app.use('/api/categories', categoryRoute)
-    app.use('/api/products', productRoute)
-    app.use('/api/product-categories', productCategoryRoute)
-    app.use('/api/posts', postRoute)
-    app.use('/api/post-attachments', postAttachmentRoute)
-    app.use('/api/attachments', attachmentRoute)
-    app.use('/api/industry-sectors', industrySectorRoute)
-    app.use('/api/recruitment-posts', recruitmentPostRoute)
-  }
-}
+const router = Router()
+
+router.use('/auth', authRoute)
+router.use('/google', googleRoute)
+router.use('/hero-banners', heroBannerRoute)
+router.use('/home-products', homeProductRoute)
+router.use('/partners', partnerRoute)
+router.use('/prizes', prizeRoute)
+router.use('/projects', projectRoute)
+router.use('/categories', categoryRoute)
+router.use('/products', productRoute)
+router.use('/product-categories', productCategoryRoute)
+router.use('/posts', postRoute)
+router.use('/post-attachments', postAttachmentRoute)
+router.use('/attachments', attachmentRoute)
+router.use('/industry-sectors', industrySectorRoute)
+router.use('/recruitment-posts', recruitmentPostRoute)
+
+export default router

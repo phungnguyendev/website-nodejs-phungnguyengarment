@@ -1,80 +1,65 @@
+import bcrypt from 'bcrypt'
 import { Request, Response } from 'express'
+import jwt from 'jsonwebtoken'
 import { message } from '~/api/utils/constant'
-import { otpGenerator, tokenGenerator } from '~/api/utils/token-generation'
-import { mailOptionVerifyOTPCode, transporter } from '~/config/nodemailer.config'
+import appConfig from '~/config/app.config'
 import * as service from '~/services/user.service'
 
-const PATH = 'Auth'
-const NAMESPACE = 'controllers/auth'
-
-export default class AuthController {
-  constructor() {}
-
-  login = async (req: Request, res: Response) => {
-    const itemRequest = {
-      email: req.body.email.toLowerCase(),
-      password: req.body.password
-    }
-    try {
-      const userFound = await service.getItemBy({ email: itemRequest.email })
-      // Check password
-      if (userFound && itemRequest.password !== userFound?.password)
-        return res.formatter.unauthorized({ message: 'Password is not correct!' })
-      if (!userFound) return res.formatter.badRequest({ message: 'User not found!' })
-      const accessToken = tokenGenerator({ email: userFound.email, password: userFound.password })
-      if (!accessToken) return res.formatter.unauthorized({ message: message.LOGIN_FAILED })
-      await service.updateItemByPk(userFound.id, { accessToken: accessToken }) // Update refresh token if token is not existing database
+export const login = async (req: Request, res: Response) => {
+  try {
+    const { email, password } = req.body
+    const userExist = await service.getItemBy({ email: email })
+    if (userExist && (await bcrypt.compare(password, userExist.hashPassword))) {
+      // Generate access token | option: email
       return res.formatter.ok({
-        data: { ...userFound.dataValues, accessToken: accessToken },
+        data: {
+          ...userExist.dataValues,
+          accessToken: jwt.sign({ email: email }, appConfig.secret_key, { expiresIn: 60 })
+        },
         message: message.LOGIN_SUCCESS
       })
-    } catch (error) {
-      return res.formatter.badRequest({ message: `${error}` })
     }
+    return res.formatter.notFound({
+      message: message.NOT_FOUND
+    })
+  } catch (error) {
+    return res.formatter.badRequest({ message: `${error}` })
   }
+}
 
-  sendEmailOTPCode = async (req: Request, res: Response) => {
-    try {
-      const { email } = req.params
-      const otp = otpGenerator(6)
-      // Test connection
-      const userFound = await service.getItemBy({ email: email })
-      if (!userFound) return res.formatter.notFound({ message: `Can not find user with email: ${email}` })
-      await transporter
-        .sendMail(mailOptionVerifyOTPCode(email, otp))
-        .then(async (sendInfo) => {
-          const itemUpdated = await service.updateItemByPk(userFound.id, { otp: otp })
-          if (!itemUpdated) return res.formatter.badRequest({ message: `Can not update otp for user!` })
-          return res.formatter.ok({
-            data: { messageId: sendInfo.messageId, otp },
-            message: `We have sent an authentication otp code to your email address, please check your email!`
-          })
-        })
-        .catch((err) => {
-          throw `${err}`
-        })
-    } catch (err) {
-      return res.formatter.badRequest({ message: `${err}` })
+export const register = async (req: Request, res: Response) => {
+  const { email, password } = req.body
+  try {
+    const userExist = await service.getItemBy({ email: email })
+    if (userExist) {
+      return res.formatter.badRequest({
+        message: `User already exist!`
+      })
     }
+    // Create hash password
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(password, salt)
+    // Create new user
+    const newUser = await service.createNewItem({ email: email, hashPassword: hashedPassword })
+    if (newUser) {
+      return res.formatter.ok({
+        data: newUser,
+        message: message.REGISTER_SUCCESS
+      })
+    }
+    return res.formatter.badRequest({ message: `Invalid user data!` })
+  } catch (error) {
+    return res.formatter.badRequest({ message: `${error}` })
   }
+}
 
-  verifyOTP = async (req: Request, res: Response) => {
-    const { email } = req.params
-    const { otp } = req.body
-    try {
-      const userFound = await service.getItemBy({ email: email })
-      if (!userFound) return res.formatter.notFound({ message: 'User not found!' })
-      if (otp !== userFound.otp) return res.formatter.badGateway({ message: 'OTP code is incorrect!!!' })
-      await service
-        .updateItemByPk(userFound.id, { otp: null })
-        .then((user) => {
-          return res.formatter.ok({ data: user })
-        })
-        .catch((err) => {
-          throw new Error(`${err}`)
-        })
-    } catch (err) {
-      return res.formatter.badRequest({ message: `${err}` })
-    }
+export const logout = async (req: Request, res: Response) => {
+  try {
+    return res.formatter.ok({
+      data: req,
+      message: message.REGISTER_SUCCESS
+    })
+  } catch (error) {
+    return res.formatter.badRequest({ message: `${error}` })
   }
 }

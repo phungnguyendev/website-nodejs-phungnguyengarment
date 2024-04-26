@@ -2,3 +2,5 @@ node_modules/
 dist/
 seeders/
 yarn.lock
+
+app.ts/

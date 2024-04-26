@@ -1,25 +1,15 @@
 import { Router } from 'express'
 import multer from '~/config/multer.config'
-import GoogleController from '~/controllers/google/google.controller'
+import * as controller from '~/controllers/google/google.controller'
 
-class GoogleRoute {
-  router = Router()
-  controller = new GoogleController()
+const router = Router()
 
-  constructor() {
-    this.initialize()
-  }
+router.post('/drive/upload', multer.single('file'), controller.googleDriveUploadFile)
 
-  private initialize() {
-    // UPLOAD File to GoogleDrive
-    this.router.post('/drive/upload', multer.single('file'), this.controller.googleDriveUploadFile)
+// GENERATE public url with id
+router.post('/drive/generateUrl/:fileId', controller.googleDriveGeneratePublicUrl)
 
-    // GENERATE public url with id
-    this.router.post('/drive/generateUrl/:fileId', this.controller.googleDriveGeneratePublicUrl)
+// DELETE File with id
+router.delete('/drive/:fileId', controller.googleDriveDeleteFile)
 
-    // DELETE File with id
-    this.router.delete('/drive/:fileId', this.controller.googleDriveDeleteFile)
-  }
-}
-
-export default new GoogleRoute().router
+export default router

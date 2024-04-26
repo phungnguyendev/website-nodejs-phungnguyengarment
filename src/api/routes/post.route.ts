@@ -1,63 +1,45 @@
 import { Router } from 'express'
-import PostController from '../controllers/post.controller'
-import { validationRules } from '../middleware/request-validator'
+import * as controller from '~/controllers/post.controller'
+import { validationRules } from '~/middleware/request-validator'
 
-class PostRoute {
-  router = Router()
-  controller = new PostController()
+const router = Router()
+// Create new item
+router.post(
+  '/',
+  validationRules([
+    { field: 'title', fieldType: 'string', location: 'body' },
+    { field: 'thumbID', fieldType: 'string', location: 'body' },
+    { field: 'content', fieldType: 'string', location: 'body' },
+    { field: 'publishedAt', fieldType: 'string', location: 'body' }
+  ]),
+  controller.createNewItem
+)
 
-  constructor() {
-    this.initialize()
-  }
+// Get item by productID and importedID
+router.get('/:id', validationRules([{ field: 'id', fieldType: 'int', location: 'params' }]), controller.getItemByPk)
 
-  private initialize() {
-    // Create new item
-    this.router.post(
-      '/',
-      validationRules([
-        { field: 'title', fieldType: 'string', location: 'body' },
-        { field: 'thumbID', fieldType: 'string', location: 'body' },
-        { field: 'content', fieldType: 'string', location: 'body' },
-        { field: 'publishedAt', fieldType: 'string', location: 'body' }
-      ]),
-      this.controller.createNewItem
-    )
+// Get all items
+router.post(
+  '/find',
+  validationRules([
+    { field: 'filter', fieldType: 'object', location: 'body' },
+    { field: 'paginator', fieldType: 'object', location: 'body' },
+    { field: 'search', fieldType: 'object', location: 'body' },
+    { field: 'sorting', fieldType: 'object', location: 'body' }
+  ]),
+  controller.getItems
+)
 
-    // Get item by productID and importedID
-    this.router.get(
-      '/:id',
-      validationRules([{ field: 'id', fieldType: 'int', location: 'params' }]),
-      this.controller.getItemByPk
-    )
+router.post('/all', controller.updateList)
 
-    // Get all items
-    this.router.post(
-      '/find',
-      validationRules([
-        { field: 'filter', fieldType: 'object', location: 'body' },
-        { field: 'paginator', fieldType: 'object', location: 'body' },
-        { field: 'search', fieldType: 'object', location: 'body' },
-        { field: 'sorting', fieldType: 'object', location: 'body' }
-      ]),
-      this.controller.getItems
-    )
+// Update item by productID and importedID
+router.put('/:id', validationRules([{ field: 'id', fieldType: 'int', location: 'params' }]), controller.updateItemByPk)
 
-    this.router.post('/all', this.controller.updateList)
+// Delete item by productID
+router.delete(
+  '/:id',
+  validationRules([{ field: 'id', fieldType: 'int', location: 'params' }]),
+  controller.deleteItemByPk
+)
 
-    // Update item by productID and importedID
-    this.router.put(
-      '/:id',
-      validationRules([{ field: 'id', fieldType: 'int', location: 'params' }]),
-      this.controller.updateItemByPk
-    )
-
-    // Delete item by productID
-    this.router.delete(
-      '/:id',
-      validationRules([{ field: 'id', fieldType: 'int', location: 'params' }]),
-      this.controller.deleteItemByPk
-    )
-  }
-}
-
-export default new PostRoute().router
+export default router

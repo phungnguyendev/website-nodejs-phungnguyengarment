@@ -10,63 +10,72 @@ import PartnerSchema from './partner.model'
 import PostAttachmentSchema from './post-attachment.model'
 import PostSchema from './post.model'
 import PrizeSchema from './prize.model'
+import ProductCategorySchema from './product-category.model'
 import ProductSchema from './product.model'
 import ProjectSchema from './project.model'
 import RecruitmentPostSchema from './recruitment-post.model'
 import UserSchema from './user.model'
-import ProductCategorySchema from './product-category.model'
 
 const PATH = 'model/index'
 
-class DBConnection {
-  private static instance: DBConnection
-  public sequelize: Sequelize | undefined
+const sequelize = new Sequelize(databaseConfig)
 
-  constructor() {
-    this.createConnection()
-  }
+sequelize?.addModels([
+  UserSchema,
+  AttachmentSchema,
+  CategorySchema,
+  HeroBannerSchema,
+  HomeProductSchema,
+  IndustrySectorSchema,
+  PartnerSchema,
+  PostAttachmentSchema,
+  PostSchema,
+  PrizeSchema,
+  ProductSchema,
+  ProductCategorySchema,
+  ProjectSchema,
+  RecruitmentPostSchema
+])
 
-  public static getInstance(): DBConnection {
-    if (!DBConnection.instance) {
-      DBConnection.instance = new DBConnection()
-    }
-    return DBConnection.instance
-  }
+sequelize
+  .authenticate()
+  .then(() => logging.info(PATH, 'Connection has been established successfully. 👏'))
+  .catch((error) => logging.error(PATH, `Unable to connect to the database: ${error}`))
 
-  async createConnection() {
-    this.sequelize = new Sequelize(databaseConfig)
+// class DBConnection {
+//   private static instance: DBConnection
+//   public sequelize: Sequelize | undefined
 
-    this.sequelize?.addModels([
-      UserSchema,
-      AttachmentSchema,
-      CategorySchema,
-      HeroBannerSchema,
-      HomeProductSchema,
-      IndustrySectorSchema,
-      PartnerSchema,
-      PostAttachmentSchema,
-      PostSchema,
-      PrizeSchema,
-      ProductSchema,
-      ProductCategorySchema,
-      ProjectSchema,
-      RecruitmentPostSchema
-    ])
+//   constructor() {
+//     this.createConnection()
+//   }
 
-    await this.sequelize
-      .authenticate()
-      .then(() => logging.info(PATH, 'Connection has been established successfully. 👏'))
-      .catch((error) => logging.error(PATH, `Unable to connect to the database: ${error}`))
-  }
+//   public static getInstance(): DBConnection {
+//     if (!DBConnection.instance) {
+//       DBConnection.instance = new DBConnection()
+//     }
+//     return DBConnection.instance
+//   }
 
-  async closeConnection() {
-    if (this.sequelize) {
-      await this.sequelize
-        .close()
-        .then(() => logging.info(PATH, 'Connection has been closed'))
-        .catch((error) => logging.error(PATH, `Unable to close the database: ${error}`))
-    }
-  }
-}
+//   async createConnection() {
+//     this.sequelize = new Sequelize(databaseConfig)
 
-export const sequelizeInstance = DBConnection.getInstance().sequelize
+//     await this.sequelize
+//       .authenticate()
+//       .then(() => logging.info(PATH, 'Connection has been established successfully. 👏'))
+//       .catch((error) => logging.error(PATH, `Unable to connect to the database: ${error}`))
+//   }
+
+//   async closeConnection() {
+//     if (this.sequelize) {
+//       await this.sequelize
+//         .close()
+//         .then(() => logging.info(PATH, 'Connection has been closed'))
+//         .catch((error) => logging.error(PATH, `Unable to close the database: ${error}`))
+//     }
+//   }
+// }
+
+// export const sequelizeInstance = DBConnection.getInstance().sequelize
+
+export default sequelize
