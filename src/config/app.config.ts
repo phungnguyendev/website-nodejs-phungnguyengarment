@@ -6,9 +6,8 @@ const appConfig = {
   secret_key: process.env.SECRET_KEY ?? '',
   clientURL: process.env.CLIENT_URL ?? '',
   server: {
-    server_host: process.env.HOST ?? '',
-    server_port: process.env.PORT ?? 5001,
-    server_url: process.env.SERVER_URL ?? ''
+    host: process.env.HOST ?? '',
+    port: process.env.PORT ?? 8001
   },
   database: {
     db_host: process.env.DB_HOST ?? '',

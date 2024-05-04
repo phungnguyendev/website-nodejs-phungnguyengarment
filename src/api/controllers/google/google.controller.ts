@@ -1,15 +1,16 @@
 import { Request, Response } from 'express'
 import * as service from '~/api/services/google/google.service'
 import { message } from '~/api/utils/constant'
-import { deleteFile } from '~/config/multer.config'
 
 export const googleDriveUploadFile = async (req: Request, res: Response) => {
   try {
     const file = req.file
-    if (!file) return res.formatter.serverError({ message: 'Internal error!' })
-    const upload = await service.googleDriveUploadTo(file)
-    deleteFile(file.path)
-    return res.formatter.created({ data: upload.data, message: message.CREATED })
+    if (!file) return res.formatter.badRequest({ message: `Please upload a file..` })
+    return res.formatter.ok({ data: file })
+    // if (!file) return res.formatter.serverError({ message: 'Internal error!' })
+    // const upload = await service.googleDriveUploadTo(file)
+    // deleteFile(file.path)
+    // return res.formatter.created({ data: upload.data, message: message.CREATED })
   } catch (error) {
     return res.formatter.badRequest({ message: `${error}` })
   }

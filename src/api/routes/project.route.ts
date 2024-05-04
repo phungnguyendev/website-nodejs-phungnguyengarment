@@ -8,7 +8,7 @@ router.post(
   validationRules([
     { field: 'title', fieldType: 'string', location: 'body' },
     { field: 'desc', fieldType: 'string', location: 'body' },
-    { field: 'imageId', fieldType: 'string', location: 'body' }
+    { field: 'imageUrl', fieldType: 'string', location: 'body' }
   ]),
   controller.createNewItem
 )

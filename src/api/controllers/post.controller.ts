@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import * as service from '~/api/services/post.service'
+// import readBlob from 'read-blob'
 import { Post } from '~/models/post.model'
 import { RequestBodyType } from '~/type'
 import { message } from '../utils/constant'
@@ -38,8 +39,16 @@ export const getItems = async (req: Request, res: Response) => {
       ...req.body
     }
     const items = await service.getItems(bodyRequest)
+
     const data = items.rows.map((item) => {
-      return item.dataValues
+      // readBlob(item.dataValues.content, 'dataurl', function (err: any, dataurl: any) {
+      //   if (err) throw err
+      //   console.log('that was simple!')
+      //   return { ...item.dataValues, content: dataurl }
+      // })
+      const arrayBuffer = Buffer.from(item.dataValues.content!, 'binary')
+      const textData = arrayBuffer.toString('utf8')
+      return { ...item.dataValues, content: textData }
     })
     return res.formatter.ok({
       // data: data.map((item) => {

@@ -7,7 +7,7 @@ export interface Post {
   id?: number
   title?: string
   content?: string
-  thumbID?: string
+  imageUrl?: string
   publishedAt?: string
   orderNumber?: number
 }
@@ -24,11 +24,11 @@ export default class PostSchema extends Model<Post> {
   @Column({ type: STRING, field: 'title' })
   declare title: string
 
-  @Column({ type: STRING(10000), field: 'content' })
+  @Column({ type: BLOB('long'), field: 'content' })
   declare content: string
 
-  @Column({ type: STRING, field: 'thumb_id' })
-  declare thumbID: string
+  @Column({ type: STRING(1000), field: 'image_id' })
+  declare imageUrl: string
 
   @Column({ type: STRING, field: 'published_at' })
   declare publishedAt: string

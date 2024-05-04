@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto'
 import fs from 'fs'
 import appConfig from '~/config/app.config'
-import { driveService, oauth2Client } from '~/config/google.config'
+import { driveService } from '~/config/google.config'
 
 export const googleDriveUploadTo = async (file: Express.Multer.File): Promise<any> => {
   try {

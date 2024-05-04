@@ -14,7 +14,7 @@ export const login = async (req: Request, res: Response) => {
       return res.formatter.ok({
         data: {
           ...userExist.dataValues,
-          accessToken: jwt.sign({ email: email }, appConfig.secret_key, { expiresIn: 60 })
+          accessToken: jwt.sign({ email: email }, appConfig.secret_key, { expiresIn: '3 days' })
         },
         message: message.LOGIN_SUCCESS
       })
@@ -48,17 +48,6 @@ export const register = async (req: Request, res: Response) => {
       })
     }
     return res.formatter.badRequest({ message: `Invalid user data!` })
-  } catch (error) {
-    return res.formatter.badRequest({ message: `${error}` })
-  }
-}
-
-export const logout = async (req: Request, res: Response) => {
-  try {
-    return res.formatter.ok({
-      data: req,
-      message: message.REGISTER_SUCCESS
-    })
   } catch (error) {
     return res.formatter.badRequest({ message: `${error}` })
   }

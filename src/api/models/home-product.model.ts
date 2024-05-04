@@ -5,7 +5,7 @@ const { INTEGER, STRING } = DataType
 export interface HomeProduct {
   id?: number
   title?: string
-  imageId?: string
+  imageUrl?: string
   orderNumber?: number
 }
 
@@ -21,8 +21,8 @@ export default class HomeProductSchema extends Model<HomeProduct> {
   @Column({ type: STRING, field: 'title' })
   declare title: string
 
-  @Column({ type: STRING, field: 'image_id' })
-  declare imageId: string
+  @Column({ type: STRING, field: 'image_url' })
+  declare imageUrl: string
 
   @Column({ type: INTEGER, field: 'order_number' })
   declare orderNumber: number

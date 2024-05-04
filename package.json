@@ -57,6 +57,7 @@
     "module-alias": "^2.2.3",
     "nodemon": "^3.0.1",
     "prettier": "^3.0.3",
+    "read-blob": "^1.1.2",
     "rimraf": "^5.0.5",
     "ts-node": "^10.9.1",
     "tsc-alias": "^1.8.8",

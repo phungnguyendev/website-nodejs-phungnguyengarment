@@ -1,4 +1,6 @@
+import bcrypt from 'bcrypt'
 import { Sequelize } from 'sequelize-typescript'
+import appConfig from '~/config/app.config'
 import databaseConfig from '~/config/database.config'
 import logging from '~/utils/logging'
 import AttachmentSchema from './attachment.model'
@@ -39,43 +41,23 @@ sequelize?.addModels([
 
 sequelize
   .authenticate()
-  .then(() => logging.info(PATH, 'Connection has been established successfully. 👏'))
+  .then(async () => {
+    // Check admin exist
+    const userExist = await UserSchema.count()
+    if (userExist <= 0) {
+      const salt = await bcrypt.genSalt(10)
+      const hashedPassword = await bcrypt.hash(appConfig.nodemailer.admin_password_original, salt)
+      const userCreated = await UserSchema.create({
+        email: appConfig.nodemailer.admin_user,
+        hashPassword: hashedPassword
+      })
+      logging.info(
+        PATH,
+        userCreated ? 'Admin account has been created successful! ✅' : 'Admin account create failed! ❌'
+      )
+    }
+    logging.info(PATH, 'Connection has been established successfully. 🥳🎉')
+  })
   .catch((error) => logging.error(PATH, `Unable to connect to the database: ${error}`))
-
-// class DBConnection {
-//   private static instance: DBConnection
-//   public sequelize: Sequelize | undefined
-
-//   constructor() {
-//     this.createConnection()
-//   }
-
-//   public static getInstance(): DBConnection {
-//     if (!DBConnection.instance) {
-//       DBConnection.instance = new DBConnection()
-//     }
-//     return DBConnection.instance
-//   }
-
-//   async createConnection() {
-//     this.sequelize = new Sequelize(databaseConfig)
-
-//     await this.sequelize
-//       .authenticate()
-//       .then(() => logging.info(PATH, 'Connection has been established successfully. 👏'))
-//       .catch((error) => logging.error(PATH, `Unable to connect to the database: ${error}`))
-//   }
-
-//   async closeConnection() {
-//     if (this.sequelize) {
-//       await this.sequelize
-//         .close()
-//         .then(() => logging.info(PATH, 'Connection has been closed'))
-//         .catch((error) => logging.error(PATH, `Unable to close the database: ${error}`))
-//     }
-//   }
-// }
-
-// export const sequelizeInstance = DBConnection.getInstance().sequelize
 
 export default sequelize

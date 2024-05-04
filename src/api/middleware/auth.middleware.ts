@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
-import * as jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 import appConfig from '~/config/app.config'
 import * as userService from '~/services/user.service'
 import { UserRole } from '~/type'
@@ -16,33 +16,21 @@ export const checkRole = (roles: UserRole[]) => {
       return res.formatter.unauthorized({ message: `${error}` })
     }
 
-    next()
+    return next()
   }
 }
 
-export const isAuthentication = async (req: Request, res: Response, next: NextFunction) => {
+export const verifyAccessToken = async (req: Request, res: Response, next: NextFunction) => {
   //Get the jwt token from the head
-  const accessTokenFromHeaders = String(req.headers.authorization)
-  let jwtPayload
-  // const jwtVerified = verifyToken(accessTokenFromHeaders)
-  // if (!jwtVerified) res.formatter.unauthorized({ message: '123' })
-
+  const accessToken = req.headers.authorization
   try {
-    // const userFound = await userService.getItemBy({ accessToken: accessTokenFromHeaders })
-    if (!accessTokenFromHeaders) return res.formatter.unauthorized({})
-    jwtPayload = <any>jwt.verify(accessTokenFromHeaders, appConfig.secret_key)
-    res.locals.jwtPayload = jwtPayload
-  } catch (error: any) {
-    return res.formatter.unauthorized({})
-  }
-
-  const { email, password } = jwtPayload
-
-  try {
-    const userFound = await userService.getItemBy({ email: email, password: password })
-    if (!userFound) return res.formatter.notFound({ message: 'User not found!' })
+    if (!accessToken) return res.formatter.unauthorized({})
+    const email = jwt.verify(accessToken, appConfig.secret_key)
+    if (!email) return res.formatter.notFound({})
+    const emailExist = await userService.getItemBy({ email: `${email}` })
+    if (emailExist) return res.formatter.notFound({ message: `Can not find user with email: ${email}` })
   } catch (error) {
-    return res.formatter.unauthorized({ message: `${error}` })
+    return res.formatter.badRequest({ message: `${error}` })
   }
   next()
 }
