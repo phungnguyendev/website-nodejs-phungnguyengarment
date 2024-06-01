@@ -4,6 +4,7 @@ import appConfig from '~/config/app.config'
 import databaseConfig from '~/config/database.config'
 import logging from '~/utils/logging'
 import AttachmentSchema from './attachment.model'
+import BranchSchema from './branch.model'
 import CategorySchema from './category.model'
 import HeroBannerSchema from './hero-banner.model'
 import HomeProductSchema from './home-product.model'
@@ -29,6 +30,7 @@ sequelize?.addModels([
   HeroBannerSchema,
   HomeProductSchema,
   IndustrySectorSchema,
+  BranchSchema,
   PartnerSchema,
   PostAttachmentSchema,
   PostSchema,

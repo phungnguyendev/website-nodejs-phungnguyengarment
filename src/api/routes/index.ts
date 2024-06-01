@@ -1,7 +1,7 @@
 import { Router } from 'express'
-import { verifyAccessToken } from '../middleware/auth.middleware'
 import attachmentRoute from './attachment.route'
 import authRoute from './auth/auth.route'
+import branchRoute from './branch.route'
 import categoryRoute from './category.route'
 import googleRoute from './google/google.route'
 import heroBannerRoute from './hero-banner.route'
@@ -32,6 +32,7 @@ router.use('/posts', postRoute)
 router.use('/post-attachments', postAttachmentRoute)
 router.use('/attachments', attachmentRoute)
 router.use('/industry-sectors', industrySectorRoute)
-router.use('/recruitment-posts', recruitmentPostRoute)
+router.use('/branches', branchRoute)
+router.use('/recruitments', recruitmentPostRoute)
 
 export default router
