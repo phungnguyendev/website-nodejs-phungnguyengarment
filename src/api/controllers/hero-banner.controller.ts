@@ -51,11 +51,11 @@ export const getItems = async (req: Request, res: Response) => {
   }
 }
 
-export const updateList = async (req: Request, res: Response) => {
+export const updateItems = async (req: Request, res: Response) => {
   try {
     const itemRequest: HeroBanner[] = req.body
     // return res.formatter.ok({ data: itemRequest, message: message.UPDATED })
-    const itemUpdated = await service.updateList(itemRequest)
+    const itemUpdated = await service.updateItems(itemRequest)
     if (itemUpdated) {
       return res.formatter.ok({ data: itemUpdated, message: message.UPDATED })
     }

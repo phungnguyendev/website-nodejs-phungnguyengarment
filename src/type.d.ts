@@ -32,3 +32,12 @@ export type RequestBodyType = {
     direction: 'asc' | 'desc' // direction: asc|desc sắp xếp trước sau
   }
 }
+
+export type FileSyncType = {
+  fileName: string
+  preview: string
+  fileType: string
+  size: number
+  createdDate: Date
+  updatedDate: Date
+}

@@ -1,9 +1,9 @@
 import { Router } from 'express'
+import publicRoute from '~/routes/public.route'
 import attachmentRoute from './attachment.route'
 import authRoute from './auth/auth.route'
 import branchRoute from './branch.route'
 import categoryRoute from './category.route'
-import googleRoute from './google/google.route'
 import heroBannerRoute from './hero-banner.route'
 import homeProductRoute from './home-product.route'
 import industrySectorRoute from './industry-sector.route'
@@ -18,8 +18,9 @@ import recruitmentPostRoute from './recruitment-post.route'
 
 const router = Router()
 
+// Đường dẫn đến thư mục public
+router.use('/public', publicRoute)
 router.use('/auth', authRoute)
-router.use('/google', googleRoute)
 router.use('/hero-banners', heroBannerRoute)
 router.use('/home-products', homeProductRoute)
 router.use('/partners', partnerRoute)

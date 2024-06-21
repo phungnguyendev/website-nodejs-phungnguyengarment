@@ -1,37 +1,23 @@
-import fs from 'fs'
-import multer from 'multer'
+import Multer from 'multer'
 
 const limit = 5 // 5 <=> 5MB
 
-// const multer = Multer({
-//   storage: Multer.diskStorage({
-//     destination: function (req, file, callback) {
-//       callback(null, `src/assets`)
-//     },
-//     filename: function (req, file, callback) {
-//       callback(null, file.fieldname + '-' + Date.now())
-//     }
-//   }),
-//   limits: {
-//     fileSize: limit * 1024 * 1024
-//   }
-// })
-
-export const storage = multer.diskStorage({
-  destination: function (req, file, callback) {
-    callback(null, `/assets`)
-  },
-  filename: function (req, file, callback) {
-    callback(null, file.fieldname + '-' + Date.now())
-  }
-})
-
-export const deleteFile = (filePath: string) => {
-  fs.unlink(filePath, () => {
-    console.log('file deleted')
+const multer = (destination: string) => {
+  return Multer({
+    storage: Multer.diskStorage({
+      destination: function (req, file, callback) {
+        callback(null, `public/${destination}`)
+      },
+      filename: function (req, file, callback) {
+        // const uniqueSuffix = Date.now() + '_' + Math.round(Math.random() * 19)
+        // callback(null, uniqueSuffix + file.originalname)
+        callback(null, file.originalname)
+      }
+    }),
+    limits: {
+      fileSize: limit * 1024 * 1024
+    }
   })
 }
-
-export const upload = multer({ storage: storage })
 
 export default multer

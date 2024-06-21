@@ -7,7 +7,7 @@ export interface Product {
   id?: number
   title?: string
   desc?: string
-  imageUrl?: string
+  imageName?: string
   orderNumber?: number
 }
 
@@ -26,8 +26,8 @@ export default class ProductSchema extends Model<Product> {
   @Column({ type: STRING, field: 'desc' })
   declare desc: string
 
-  @Column({ type: STRING, field: 'image_url' })
-  declare imageUrl: string
+  @Column({ type: STRING, field: 'image_name' })
+  declare imageName: string
 
   @Column({ type: INTEGER, field: 'order_number' })
   declare orderNumber: number

@@ -58,7 +58,7 @@ export const getItems = async (body: RequestBodyType): Promise<{ count: number; 
   }
 }
 
-export const updateList = async (itemsUpdate: HeroBanner[]): Promise<HeroBanner[] | undefined> => {
+export const updateItems = async (itemsUpdate: HeroBanner[]): Promise<HeroBanner[] | undefined> => {
   try {
     itemsUpdate.forEach(async (item) => {
       await HeroBannerSchema.update({ ...item }, { where: { id: item.id } })
@@ -69,10 +69,6 @@ export const updateList = async (itemsUpdate: HeroBanner[]): Promise<HeroBanner[
           throw new Error(`${e}`)
         })
     })
-    // const updatedRows = itemsUpdate.map(async (item) => {
-    //   await HeroBannerSchema.update({ ...item }, { where: { id: item.id } })
-    // })
-    // console.log(updatedRows)
     return itemsUpdate
   } catch (error) {
     logging.error(NAMESPACE, `${error}`)

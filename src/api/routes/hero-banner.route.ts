@@ -8,7 +8,7 @@ router.post(
   '/',
   validationRules([
     { field: 'title', fieldType: 'string', location: 'body' },
-    { field: 'imageUrl', fieldType: 'string', location: 'body' }
+    { field: 'imageName', fieldType: 'string', location: 'body' }
   ]),
   controller.createNewItem
 )
@@ -28,10 +28,14 @@ router.post(
   controller.getItems
 )
 
-router.post('/all', controller.updateList)
+router.put('/', controller.updateItems)
 
 // Update item by productID and importedID
-router.put('/:id', validationRules([{ field: 'id', fieldType: 'int', location: 'params' }]), controller.updateItemByPk)
+router.patch(
+  '/:id',
+  validationRules([{ field: 'id', fieldType: 'int', location: 'params' }]),
+  controller.updateItemByPk
+)
 
 // Delete item by productID
 router.delete(
