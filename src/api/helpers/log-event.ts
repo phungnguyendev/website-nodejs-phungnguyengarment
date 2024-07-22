@@ -16,7 +16,7 @@ const logEvent = async (message: string) => {
       .catch((err) => {
         if (err) throw err
       })
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
   }
 }

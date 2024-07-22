@@ -8,9 +8,9 @@ const NAMESPACE = 'services/branch'
 export const createNewItem = async (item: Branch): Promise<BranchSchema> => {
   try {
     return await BranchSchema.create(item)
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
@@ -18,25 +18,25 @@ export const createNewItem = async (item: Branch): Promise<BranchSchema> => {
 export const getItemByPk = async (id: number): Promise<BranchSchema | null> => {
   try {
     return await BranchSchema.findByPk(id)
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
 export const getItemBy = async (item: Branch): Promise<BranchSchema | null> => {
   try {
     return await BranchSchema.findOne({ where: { ...item } })
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
 export const getItemsCount = async (): Promise<number> => {
   try {
     return await BranchSchema.count()
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
     throw new Error(`${error}`)
   }
@@ -52,9 +52,9 @@ export const getItems = async (body: RequestBodyType): Promise<{ count: number; 
       where: buildDynamicQuery<Branch>(body)
     })
     return items
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
@@ -70,9 +70,9 @@ export const updateList = async (itemsUpdate: Branch[]): Promise<Branch[] | unde
         })
     })
     return itemsUpdate
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
@@ -90,9 +90,9 @@ export const updateItemByPk = async (id: number, itemToUpdate: Branch): Promise<
       }
     )
     return affectedRows[0] > 0 ? itemToUpdate : undefined
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
@@ -100,8 +100,8 @@ export const updateItemByPk = async (id: number, itemToUpdate: Branch): Promise<
 export const deleteItemByPk = async (id: number): Promise<number> => {
   try {
     return await BranchSchema.destroy({ where: { id: id } })
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }

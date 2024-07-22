@@ -22,7 +22,7 @@ export const login = async (req: Request, res: Response) => {
     return res.formatter.notFound({
       message: message.NOT_FOUND
     })
-  } catch (error) {
+  } catch (error: any) {
     return res.formatter.badRequest({ message: `${error}` })
   }
 }
@@ -48,7 +48,7 @@ export const register = async (req: Request, res: Response) => {
       })
     }
     return res.formatter.badRequest({ message: `Invalid user data!` })
-  } catch (error) {
+  } catch (error: any) {
     return res.formatter.badRequest({ message: `${error}` })
   }
 }

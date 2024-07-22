@@ -15,7 +15,7 @@ export const createNewItem = async (req: Request, res: Response) => {
       return res.formatter.created({ data: itemNew, message: message.CREATED })
     }
     return res.formatter.badRequest({ message: message.CREATION_FAILED })
-  } catch (error) {
+  } catch (error: any) {
     return res.formatter.badRequest({ message: `${error}` })
   }
 }
@@ -28,7 +28,7 @@ export const getItemByPk = async (req: Request, res: Response) => {
       return res.formatter.ok({ data: item, message: message.SUCCESS })
     }
     return res.formatter.notFound({ message: message.NOT_FOUND })
-  } catch (error) {
+  } catch (error: any) {
     return res.formatter.badRequest({ message: `${error}` })
   }
 }
@@ -38,6 +38,10 @@ export const getItems = async (req: Request, res: Response) => {
     const bodyRequest: RequestBodyType = {
       ...req.body
     }
+    const countAll = await service.getItems({
+      ...bodyRequest,
+      filter: { status: 'active', field: 'id', items: [-1] }
+    })
     const items = await service.getItems(bodyRequest)
 
     const data = items.rows.map((item) => {
@@ -58,10 +62,9 @@ export const getItems = async (req: Request, res: Response) => {
       length: items.rows.length,
       page: Number(bodyRequest.paginator.page),
       pageSize: Number(bodyRequest.paginator.pageSize),
-      total: items.count,
-      message: message.SUCCESS
+      total: bodyRequest.search.term.length > 0 ? items.count : countAll.count
     })
-  } catch (error) {
+  } catch (error: any) {
     return res.formatter.badRequest({ message: `${error}` })
   }
 }
@@ -75,7 +78,7 @@ export const updateList = async (req: Request, res: Response) => {
       return res.formatter.ok({ data: itemUpdated, message: message.UPDATED })
     }
     return res.formatter.badRequest({ message: message.UPDATE_FAILED })
-  } catch (error) {
+  } catch (error: any) {
     return res.formatter.badRequest({ message: `${error}` })
   }
 }
@@ -91,7 +94,7 @@ export const updateItemByPk = async (req: Request, res: Response) => {
       return res.formatter.ok({ data: itemUpdated, message: message.UPDATED })
     }
     return res.formatter.badRequest({ message: message.UPDATE_FAILED })
-  } catch (error) {
+  } catch (error: any) {
     return res.formatter.badRequest({ message: `${error}` })
   }
 }
@@ -104,7 +107,7 @@ export const deleteItemByPk = async (req: Request, res: Response) => {
       return res.formatter.ok({ message: message.DELETED })
     }
     return res.formatter.notFound({ message: message.NOT_FOUND })
-  } catch (error) {
+  } catch (error: any) {
     return res.formatter.badRequest({ message: `${error}` })
   }
 }

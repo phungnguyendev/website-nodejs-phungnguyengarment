@@ -8,9 +8,9 @@ const NAMESPACE = 'services/attachment'
 export const createNewItem = async (item: Attachment): Promise<AttachmentSchema> => {
   try {
     return await AttachmentSchema.create(item)
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
@@ -18,25 +18,25 @@ export const createNewItem = async (item: Attachment): Promise<AttachmentSchema>
 export const getItemByPk = async (id: number): Promise<AttachmentSchema | null> => {
   try {
     return await AttachmentSchema.findByPk(id)
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
 export const getItemBy = async (item: Attachment): Promise<AttachmentSchema | null> => {
   try {
     return await AttachmentSchema.findOne({ where: { ...item } })
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
 export const getItemsCount = async (): Promise<number> => {
   try {
     return await AttachmentSchema.count()
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
     throw new Error(`${error}`)
   }
@@ -52,9 +52,9 @@ export const getItems = async (body: RequestBodyType): Promise<{ count: number; 
       where: buildDynamicQuery<Attachment>(body)
     })
     return items
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
@@ -70,9 +70,9 @@ export const updateList = async (itemsUpdate: Attachment[]): Promise<Attachment[
         })
     })
     return itemsUpdate
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
@@ -90,9 +90,9 @@ export const updateItemByPk = async (id: number, itemToUpdate: Attachment): Prom
       }
     )
     return affectedRows[0] > 0 ? itemToUpdate : undefined
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
@@ -100,8 +100,8 @@ export const updateItemByPk = async (id: number, itemToUpdate: Attachment): Prom
 export const deleteItemByPk = async (id: number): Promise<number> => {
   try {
     return await AttachmentSchema.destroy({ where: { id: id } })
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }

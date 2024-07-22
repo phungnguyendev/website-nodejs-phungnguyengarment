@@ -8,9 +8,9 @@ const NAMESPACE = 'services/product-category'
 export const createNewItem = async (item: ProductCategory): Promise<ProductCategorySchema> => {
   try {
     return await ProductCategorySchema.create({ ...item })
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
@@ -18,25 +18,25 @@ export const createNewItem = async (item: ProductCategory): Promise<ProductCateg
 export const getItemByPk = async (id: number): Promise<ProductCategorySchema | null> => {
   try {
     return await ProductCategorySchema.findByPk(id)
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
 export const getItemBy = async (item: ProductCategory): Promise<ProductCategorySchema | null> => {
   try {
     return await ProductCategorySchema.findOne({ where: { ...item } })
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
 export const getItemsCount = async (): Promise<number> => {
   try {
     return await ProductCategorySchema.count()
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
     throw new Error(`${error}`)
   }
@@ -52,9 +52,9 @@ export const getItems = async (body: RequestBodyType): Promise<{ count: number; 
       where: buildDynamicQuery<ProductCategory>(body)
     })
     return items
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
@@ -75,9 +75,9 @@ export const updateItemByPk = async (
       }
     )
     return affectedRows[0] > 0 ? itemToUpdate : undefined
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
@@ -100,9 +100,9 @@ export const updateItemBy = async (
       }
     )
     return affectedRows[0] > 0 ? itemToUpdate : undefined
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
@@ -110,8 +110,8 @@ export const updateItemBy = async (
 export const deleteItemByPk = async (id: number): Promise<number> => {
   try {
     return await ProductCategorySchema.destroy({ where: { id: id } })
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }

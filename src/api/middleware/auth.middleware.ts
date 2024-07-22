@@ -12,7 +12,7 @@ export const checkRole = (roles: UserRole[]) => {
     try {
       const userFound = await userService.getItemBy({ email: username })
       if (!userFound) return res.formatter.notFound({ message: 'User not found!' })
-    } catch (error) {
+    } catch (error: any) {
       return res.formatter.unauthorized({ message: `${error}` })
     }
 
@@ -29,7 +29,7 @@ export const verifyAccessToken = async (req: Request, res: Response, next: NextF
     if (!email) return res.formatter.notFound({})
     const emailExist = await userService.getItemBy({ email: `${email}` })
     if (emailExist) return res.formatter.notFound({ message: `Can not find user with email: ${email}` })
-  } catch (error) {
+  } catch (error: any) {
     return res.formatter.badRequest({ message: `${error}` })
   }
   next()

@@ -8,9 +8,9 @@ const NAMESPACE = 'services/project'
 export const createNewItem = async (item: Project): Promise<ProjectSchema> => {
   try {
     return await ProjectSchema.create(item)
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
@@ -18,25 +18,25 @@ export const createNewItem = async (item: Project): Promise<ProjectSchema> => {
 export const getItemByPk = async (id: number): Promise<ProjectSchema | null> => {
   try {
     return await ProjectSchema.findByPk(id)
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
 export const getItemBy = async (item: Project): Promise<ProjectSchema | null> => {
   try {
     return await ProjectSchema.findOne({ where: { ...item } })
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
 export const getItemsCount = async (): Promise<number> => {
   try {
     return await ProjectSchema.count()
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
     throw new Error(`${error}`)
   }
@@ -52,9 +52,9 @@ export const getItems = async (body: RequestBodyType): Promise<{ count: number; 
       where: buildDynamicQuery<Project>(body)
     })
     return items
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
@@ -70,9 +70,9 @@ export const updateList = async (itemsUpdate: Project[]): Promise<Project[] | un
         })
     })
     return itemsUpdate
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
@@ -90,9 +90,9 @@ export const updateItemByPk = async (id: number, itemToUpdate: Project): Promise
       }
     )
     return affectedRows[0] > 0 ? itemToUpdate : undefined
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
@@ -100,8 +100,8 @@ export const updateItemByPk = async (id: number, itemToUpdate: Project): Promise
 export const deleteItemByPk = async (id: number): Promise<number> => {
   try {
     return await ProjectSchema.destroy({ where: { id: id } })
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }

@@ -5,7 +5,7 @@ const { INTEGER, STRING } = DataType
 
 export interface Category {
   id?: number
-  imageName?: string
+  imageUrl?: string
   title?: string
   desc?: string
   orderNumber?: number
@@ -23,8 +23,8 @@ export default class CategorySchema extends Model<Category> {
   @Column({ type: STRING, field: 'title' })
   declare title: string
 
-  @Column({ type: STRING, field: 'image_name' })
-  declare imageName: string
+  @Column({ type: STRING, field: 'image_url' })
+  declare imageUrl: string
 
   @Column({ type: STRING, field: 'desc' })
   declare desc: string

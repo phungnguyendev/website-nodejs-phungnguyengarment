@@ -9,7 +9,7 @@ export const createNewItem = async (item: User): Promise<UserSchema | null> => {
   try {
     const userCreated = await UserSchema.create({ ...item })
     return userCreated
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
     throw new Error(`${error}`)
   }
@@ -19,7 +19,7 @@ export const createNewItem = async (item: User): Promise<UserSchema | null> => {
 export const getItemByPk = async (id: number): Promise<UserSchema | null> => {
   try {
     return await UserSchema.findByPk(id)
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
     throw new Error(`${error}`)
   }
@@ -28,7 +28,7 @@ export const getItemByPk = async (id: number): Promise<UserSchema | null> => {
 export const getItemBy = async (item: User): Promise<UserSchema | null> => {
   try {
     return await UserSchema.findOne({ where: { ...item } })
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
     throw new Error(`${error}`)
   }
@@ -44,7 +44,7 @@ export const getItems = async (body: RequestBodyType): Promise<{ count: number; 
       where: buildDynamicQuery<User>(body)
     })
     return items
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
     throw new Error(`${error}`)
   }
@@ -53,7 +53,7 @@ export const getItems = async (body: RequestBodyType): Promise<{ count: number; 
 export const getItemsCount = async (): Promise<number> => {
   try {
     return await UserSchema.count()
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
     throw new Error(`${error}`)
   }
@@ -73,7 +73,7 @@ export const updateItemByPk = async (id: number, item: User): Promise<User | und
       }
     )
     return affectedRows[0] > 0 ? item : undefined
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
     throw new Error(`${error}`)
   }
@@ -91,7 +91,7 @@ export const updateItemByEmail = async (email: string, itemToUpdate: User): Prom
       }
     )
     return affectedRows[0] > 0 ? itemToUpdate : undefined
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
     throw new Error(`${error}`)
   }
@@ -101,7 +101,7 @@ export const updateItemByEmail = async (email: string, itemToUpdate: User): Prom
 export const deleteItemByPk = async (id: number): Promise<number> => {
   try {
     return await UserSchema.destroy({ where: { id: id } })
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
     throw new Error(`${error}`)
   }

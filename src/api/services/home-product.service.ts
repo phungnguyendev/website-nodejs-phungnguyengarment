@@ -8,9 +8,9 @@ const NAMESPACE = 'services/home-product'
 export const createNewItem = async (item: HomeProduct): Promise<HomeProductSchema> => {
   try {
     return await HomeProductSchema.create(item)
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
@@ -18,25 +18,25 @@ export const createNewItem = async (item: HomeProduct): Promise<HomeProductSchem
 export const getItemByPk = async (id: number): Promise<HomeProductSchema | null> => {
   try {
     return await HomeProductSchema.findByPk(id)
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
 export const getItemBy = async (item: HomeProduct): Promise<HomeProductSchema | null> => {
   try {
     return await HomeProductSchema.findOne({ where: { ...item } })
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
 export const getItemsCount = async (): Promise<number> => {
   try {
     return await HomeProductSchema.count()
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
     throw new Error(`${error}`)
   }
@@ -52,9 +52,9 @@ export const getItems = async (body: RequestBodyType): Promise<{ count: number; 
       where: buildDynamicQuery<HomeProduct>(body)
     })
     return items
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
@@ -74,9 +74,9 @@ export const updateList = async (itemsUpdate: HomeProduct[]): Promise<HomeProduc
     // })
     // console.log(updatedRows)
     return itemsUpdate
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
@@ -94,9 +94,9 @@ export const updateItemByPk = async (id: number, itemToUpdate: HomeProduct): Pro
       }
     )
     return affectedRows[0] > 0 ? itemToUpdate : undefined
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
@@ -104,8 +104,8 @@ export const updateItemByPk = async (id: number, itemToUpdate: HomeProduct): Pro
 export const deleteItemByPk = async (id: number): Promise<number> => {
   try {
     return await HomeProductSchema.destroy({ where: { id: id } })
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }

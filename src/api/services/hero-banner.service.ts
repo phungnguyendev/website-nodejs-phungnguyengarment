@@ -8,9 +8,9 @@ const NAMESPACE = 'services/hero-banner'
 export const createNewItem = async (item: HeroBanner): Promise<HeroBannerSchema> => {
   try {
     return await HeroBannerSchema.create(item)
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
@@ -18,25 +18,25 @@ export const createNewItem = async (item: HeroBanner): Promise<HeroBannerSchema>
 export const getItemByPk = async (id: number): Promise<HeroBannerSchema | null> => {
   try {
     return await HeroBannerSchema.findByPk(id)
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
 export const getItemBy = async (item: HeroBanner): Promise<HeroBannerSchema | null> => {
   try {
     return await HeroBannerSchema.findOne({ where: { ...item } })
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
 export const getItemsCount = async (): Promise<number> => {
   try {
     return await HeroBannerSchema.count()
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
     throw new Error(`${error}`)
   }
@@ -52,9 +52,9 @@ export const getItems = async (body: RequestBodyType): Promise<{ count: number; 
       where: buildDynamicQuery<HeroBanner>(body)
     })
     return items
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
@@ -70,9 +70,9 @@ export const updateItems = async (itemsUpdate: HeroBanner[]): Promise<HeroBanner
         })
     })
     return itemsUpdate
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
@@ -90,9 +90,9 @@ export const updateItemByPk = async (id: number, itemToUpdate: HeroBanner): Prom
       }
     )
     return affectedRows[0] > 0 ? itemToUpdate : undefined
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
@@ -100,8 +100,8 @@ export const updateItemByPk = async (id: number, itemToUpdate: HeroBanner): Prom
 export const deleteItemByPk = async (id: number): Promise<number> => {
   try {
     return await HeroBannerSchema.destroy({ where: { id: id } })
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }

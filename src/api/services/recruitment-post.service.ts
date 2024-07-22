@@ -8,9 +8,9 @@ const NAMESPACE = 'services/recruitment-post'
 export const createNewItem = async (item: RecruitmentPost): Promise<RecruitmentPostSchema> => {
   try {
     return await RecruitmentPostSchema.create(item)
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
@@ -18,25 +18,25 @@ export const createNewItem = async (item: RecruitmentPost): Promise<RecruitmentP
 export const getItemByPk = async (id: number): Promise<RecruitmentPostSchema | null> => {
   try {
     return await RecruitmentPostSchema.findByPk(id)
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
 export const getItemBy = async (item: RecruitmentPost): Promise<RecruitmentPostSchema | null> => {
   try {
     return await RecruitmentPostSchema.findOne({ where: { ...item } })
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
 export const getItemsCount = async (): Promise<number> => {
   try {
     return await RecruitmentPostSchema.count()
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
     throw new Error(`${error}`)
   }
@@ -52,9 +52,9 @@ export const getItems = async (body: RequestBodyType): Promise<{ count: number; 
       where: buildDynamicQuery<RecruitmentPost>(body)
     })
     return items
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
@@ -75,9 +75,9 @@ export const updateItemByPk = async (
       }
     )
     return affectedRows[0] > 0 ? itemToUpdate : undefined
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
@@ -85,8 +85,8 @@ export const updateItemByPk = async (
 export const deleteItemByPk = async (id: number): Promise<number> => {
   try {
     return await RecruitmentPostSchema.destroy({ where: { id: id } })
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }

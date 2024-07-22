@@ -8,9 +8,9 @@ const NAMESPACE = 'services/partner'
 export const createNewItem = async (item: Partner): Promise<PartnerSchema> => {
   try {
     return await PartnerSchema.create({ ...item })
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
@@ -18,25 +18,25 @@ export const createNewItem = async (item: Partner): Promise<PartnerSchema> => {
 export const getItemByPk = async (id: number): Promise<PartnerSchema | null> => {
   try {
     return await PartnerSchema.findByPk(id)
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
 export const getItemBy = async (item: Partner): Promise<PartnerSchema | null> => {
   try {
     return await PartnerSchema.findOne({ where: { ...item } })
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
 export const getItemsCount = async (): Promise<number> => {
   try {
     return await PartnerSchema.count()
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
     throw new Error(`${error}`)
   }
@@ -52,9 +52,9 @@ export const getItems = async (body: RequestBodyType): Promise<{ count: number; 
       where: buildDynamicQuery<Partner>(body)
     })
     return items
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
@@ -74,9 +74,9 @@ export const updateList = async (itemsUpdate: Partner[]): Promise<Partner[] | un
     // })
     // console.log(updatedRows)
     return itemsUpdate
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
@@ -94,9 +94,9 @@ export const updateItemByPk = async (id: number, itemToUpdate: Partner): Promise
       }
     )
     return affectedRows[0] > 0 ? itemToUpdate : undefined
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
@@ -104,8 +104,8 @@ export const updateItemByPk = async (id: number, itemToUpdate: Partner): Promise
 export const deleteItemByPk = async (id: number): Promise<number> => {
   try {
     return await PartnerSchema.destroy({ where: { id: id } })
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }

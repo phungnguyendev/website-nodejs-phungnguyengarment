@@ -8,9 +8,9 @@ const NAMESPACE = 'services/industry-sector'
 export const createNewItem = async (item: IndustrySector): Promise<IndustrySectorSchema> => {
   try {
     return await IndustrySectorSchema.create(item)
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
@@ -18,25 +18,25 @@ export const createNewItem = async (item: IndustrySector): Promise<IndustrySecto
 export const getItemByPk = async (id: number): Promise<IndustrySectorSchema | null> => {
   try {
     return await IndustrySectorSchema.findByPk(id)
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
 export const getItemBy = async (item: IndustrySector): Promise<IndustrySectorSchema | null> => {
   try {
     return await IndustrySectorSchema.findOne({ where: { ...item } })
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
 export const getItemsCount = async (): Promise<number> => {
   try {
     return await IndustrySectorSchema.count()
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
     throw new Error(`${error}`)
   }
@@ -52,9 +52,9 @@ export const getItems = async (body: RequestBodyType): Promise<{ count: number; 
       where: buildDynamicQuery<IndustrySector>(body)
     })
     return items
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
@@ -72,9 +72,9 @@ export const updateItemByPk = async (id: number, itemToUpdate: IndustrySector): 
       }
     )
     return affectedRows[0] > 0 ? itemToUpdate : undefined
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }
 
@@ -82,8 +82,8 @@ export const updateItemByPk = async (id: number, itemToUpdate: IndustrySector): 
 export const deleteItemByPk = async (id: number): Promise<number> => {
   try {
     return await IndustrySectorSchema.destroy({ where: { id: id } })
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
-    throw `${error}`
+    throw `${error.message}`
   }
 }

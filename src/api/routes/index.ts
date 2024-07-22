@@ -1,5 +1,4 @@
 import { Router } from 'express'
-import publicRoute from '~/routes/public.route'
 import attachmentRoute from './attachment.route'
 import authRoute from './auth/auth.route'
 import branchRoute from './branch.route'
@@ -19,7 +18,6 @@ import recruitmentPostRoute from './recruitment-post.route'
 const router = Router()
 
 // Đường dẫn đến thư mục public
-router.use('/public', publicRoute)
 router.use('/auth', authRoute)
 router.use('/hero-banners', heroBannerRoute)
 router.use('/home-products', homeProductRoute)

@@ -11,7 +11,7 @@ export const googleDriveUploadFile = async (req: Request, res: Response) => {
     // const upload = await service.googleDriveUploadTo(file)
     // deleteFile(file.path)
     // return res.formatter.created({ data: upload.data, message: message.CREATED })
-  } catch (error) {
+  } catch (error: any) {
     return res.formatter.badRequest({ message: `${error}` })
   }
 }
@@ -22,7 +22,7 @@ export const googleDriveGeneratePublicUrl = async (req: Request, res: Response) 
     if (!fileId) return res.formatter.serverError({ message: 'Internal error!' })
     const generate = await service.googleDriveGeneratePublicUrl(fileId)
     return res.formatter.ok({ data: generate, message: message.SUCCESS })
-  } catch (error) {
+  } catch (error: any) {
     return res.formatter.badRequest({ message: `${error}` })
   }
 }
@@ -37,7 +37,7 @@ export const googleDriveDeleteFile = async (req: Request, res: Response) => {
     } else {
       return res.formatter.notFound({ message: message.NOT_FOUND })
     }
-  } catch (error) {
+  } catch (error: any) {
     return res.formatter.badRequest({ message: `${error}` })
   }
 }
