@@ -1,13 +1,14 @@
+import { buildDynamicQuery } from '~/helpers/query'
+import PostAttachmentSchema, { PostAttachment } from '~/models/post-attachment.model'
 import { RequestBodyType } from '~/type'
 import logging from '~/utils/logging'
-import { buildDynamicQuery } from '../helpers/query'
-import PostAttachmentSchema, { PostAttachment } from '../models/post-attachment.model'
 
 const NAMESPACE = 'services/post-attachment'
 
-export const createNewItem = async (item: PostAttachment): Promise<PostAttachmentSchema> => {
+export const createNewItem = async (item: PostAttachment) => {
   try {
-    return await PostAttachmentSchema.create(item)
+    const created = await PostAttachmentSchema.create(item)
+    return created
   } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
     throw `${error.message}`
@@ -15,35 +16,19 @@ export const createNewItem = async (item: PostAttachment): Promise<PostAttachmen
 }
 
 // Get by id
-export const getItemByPk = async (id: number): Promise<PostAttachmentSchema | null> => {
+export const getItemByPk = async (id: number) => {
   try {
-    return await PostAttachmentSchema.findByPk(id)
+    const itemFound = await PostAttachmentSchema.findByPk(id)
+    if (!itemFound) throw new Error(`Item not found`)
+    return itemFound
   } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
     throw `${error.message}`
-  }
-}
-
-export const getItemBy = async (item: PostAttachment): Promise<PostAttachmentSchema | null> => {
-  try {
-    return await PostAttachmentSchema.findOne({ where: { ...item } })
-  } catch (error: any) {
-    logging.error(NAMESPACE, `${error}`)
-    throw `${error.message}`
-  }
-}
-
-export const getItemsCount = async (): Promise<number> => {
-  try {
-    return await PostAttachmentSchema.count()
-  } catch (error: any) {
-    logging.error(NAMESPACE, `${error}`)
-    throw new Error(`${error}`)
   }
 }
 
 // Get all
-export const getItems = async (body: RequestBodyType): Promise<{ count: number; rows: PostAttachmentSchema[] }> => {
+export const getItems = async (body: RequestBodyType) => {
   try {
     const items = await PostAttachmentSchema.findAndCountAll({
       offset: (Number(body.paginator.page) - 1) * Number(body.paginator.pageSize),
@@ -58,38 +43,13 @@ export const getItems = async (body: RequestBodyType): Promise<{ count: number; 
   }
 }
 
-export const updateList = async (itemsUpdate: PostAttachment[]): Promise<PostAttachment[] | undefined> => {
-  try {
-    itemsUpdate.forEach(async (item) => {
-      await PostAttachmentSchema.update({ ...item }, { where: { id: item.id } })
-        .then((affectedCount) => {
-          if (!(affectedCount[0] > 0)) throw new Error(`Update failed`)
-        })
-        .catch((e) => {
-          throw new Error(`${e}`)
-        })
-    })
-    return itemsUpdate
-  } catch (error: any) {
-    logging.error(NAMESPACE, `${error}`)
-    throw `${error.message}`
-  }
-}
-
 // Update by productID
-export const updateItemByPk = async (id: number, itemToUpdate: PostAttachment): Promise<PostAttachment | undefined> => {
+export const updateItemByPk = async (id: number, itemToUpdate: PostAttachment) => {
   try {
-    const affectedRows = await PostAttachmentSchema.update(
-      {
-        ...itemToUpdate
-      },
-      {
-        where: {
-          id: id
-        }
-      }
-    )
-    return affectedRows[0] > 0 ? itemToUpdate : undefined
+    const itemFound = await PostAttachmentSchema.findByPk(id)
+    if (!itemFound) throw new Error(`Item not found`)
+    await itemFound.update(itemToUpdate)
+    return itemToUpdate
   } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
     throw `${error.message}`
@@ -97,9 +57,12 @@ export const updateItemByPk = async (id: number, itemToUpdate: PostAttachment): 
 }
 
 // Delete importedID
-export const deleteItemByPk = async (id: number): Promise<number> => {
+export const deleteItemByPk = async (id: number) => {
   try {
-    return await PostAttachmentSchema.destroy({ where: { id: id } })
+    const itemFound = await PostAttachmentSchema.findByPk(id)
+    if (!itemFound) throw new Error(`Item not found`)
+    await itemFound.destroy()
+    return { message: 'Deleted successfully' }
   } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
     throw `${error.message}`

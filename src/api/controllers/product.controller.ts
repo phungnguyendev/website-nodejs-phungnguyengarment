@@ -6,14 +6,12 @@ import { message } from '~/utils/constant'
 
 export const createNewItem = async (req: Request, res: Response) => {
   try {
-    const itemRequest: Product = {
-      ...req.body
+    const dataRequest: Product = {
+      ...req.body,
+      status: req.body.status ?? 'active'
     }
-    const itemNew = await service.createNewItem(itemRequest)
-    if (itemNew) {
-      return res.formatter.created({ data: itemNew, message: message.CREATED })
-    }
-    return res.formatter.badRequest({ message: message.CREATION_FAILED })
+    const newItem = await service.createNewItem(dataRequest)
+    return res.formatter.created({ data: newItem })
   } catch (error: any) {
     return res.formatter.badRequest({ message: `${error}` })
   }
@@ -22,11 +20,8 @@ export const createNewItem = async (req: Request, res: Response) => {
 export const getItemByPk = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id)
-    const item = await service.getItemByPk(id)
-    if (item) {
-      return res.formatter.ok({ data: item, message: message.SUCCESS })
-    }
-    return res.formatter.notFound({ message: message.NOT_FOUND })
+    const itemFound = await service.getItemByPk(id)
+    return res.formatter.ok({ data: itemFound, message: message.SUCCESS })
   } catch (error: any) {
     return res.formatter.badRequest({ message: `${error}` })
   }
@@ -54,20 +49,6 @@ export const getItems = async (req: Request, res: Response) => {
   }
 }
 
-export const updateList = async (req: Request, res: Response) => {
-  try {
-    const itemRequest: Product[] = req.body
-    // return res.formatter.ok({ data: itemRequest, message: message.UPDATED })
-    const itemUpdated = await service.updateList(itemRequest)
-    if (itemUpdated) {
-      return res.formatter.ok({ data: itemUpdated, message: message.UPDATED })
-    }
-    return res.formatter.badRequest({ message: message.UPDATE_FAILED })
-  } catch (error: any) {
-    return res.formatter.badRequest({ message: `${error}` })
-  }
-}
-
 export const updateItemByPk = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id)
@@ -75,10 +56,7 @@ export const updateItemByPk = async (req: Request, res: Response) => {
       ...req.body
     }
     const itemUpdated = await service.updateItemByPk(id, itemRequest)
-    if (itemUpdated) {
-      return res.formatter.ok({ data: itemUpdated, message: message.UPDATED })
-    }
-    return res.formatter.badRequest({ message: message.UPDATE_FAILED })
+    return res.formatter.ok({ data: itemUpdated, message: message.UPDATED })
   } catch (error: any) {
     return res.formatter.badRequest({ message: `${error}` })
   }
@@ -87,11 +65,8 @@ export const updateItemByPk = async (req: Request, res: Response) => {
 export const deleteItemByPk = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id)
-    const item = await service.deleteItemByPk(id)
-    if (item) {
-      return res.formatter.ok({ message: message.DELETED })
-    }
-    return res.formatter.notFound({ message: message.NOT_FOUND })
+    const destroyed = await service.deleteItemByPk(id)
+    return res.formatter.ok({ message: destroyed.message })
   } catch (error: any) {
     return res.formatter.badRequest({ message: `${error}` })
   }

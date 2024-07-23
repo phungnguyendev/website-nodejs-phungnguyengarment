@@ -1,5 +1,4 @@
-import { AfterCreate, Column, DataType, HasMany, Model, Table } from 'sequelize-typescript'
-import PostAttachmentSchema from './post-attachment.model'
+import { AfterCreate, Column, DataType, Model, Table } from 'sequelize-typescript'
 
 const { INTEGER, STRING, BLOB } = DataType
 
@@ -42,7 +41,4 @@ export default class PostSchema extends Model<Post> {
     const count = await PostSchema.count()
     await instance.update({ orderNumber: count })
   }
-
-  @HasMany(() => PostAttachmentSchema)
-  declare postAttachment: PostAttachmentSchema
 }

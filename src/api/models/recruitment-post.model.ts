@@ -1,5 +1,4 @@
 import { AfterCreate, BelongsTo, Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript'
-import BranchSchema from './branch.model'
 import IndustrySectorSchema from './industry-sector.model'
 
 const { INTEGER, STRING } = DataType
@@ -7,7 +6,6 @@ const { INTEGER, STRING } = DataType
 export interface RecruitmentPost {
   id?: number
   industrySectorID?: number
-  banchID?: number
   vacancies?: string
   quantity?: string
   wage?: string
@@ -29,10 +27,6 @@ export default class RecruitmentPostSchema extends Model<RecruitmentPost> {
   @Column({ type: INTEGER, field: 'id' })
   @ForeignKey(() => IndustrySectorSchema)
   declare industrySectorID: number
-
-  @Column({ type: INTEGER, field: 'id' })
-  @ForeignKey(() => BranchSchema)
-  declare banchID: number
 
   @Column({ type: STRING, field: 'vacancies' })
   declare vacancies: string
@@ -57,9 +51,6 @@ export default class RecruitmentPostSchema extends Model<RecruitmentPost> {
 
   @BelongsTo(() => IndustrySectorSchema)
   declare industrySector: IndustrySectorSchema
-
-  @BelongsTo(() => BranchSchema)
-  declare branch: BranchSchema
 
   @AfterCreate
   static async afterCreateHook(instance: RecruitmentPostSchema) {

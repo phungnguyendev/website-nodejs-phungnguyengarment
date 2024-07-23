@@ -28,14 +28,15 @@ router.post(
   controller.getItems
 )
 
-router.put('/', controller.updateItems)
-
 // Update item by productID and importedID
 router.patch(
   '/:id',
   validationRules([{ field: 'id', fieldType: 'int', location: 'params' }]),
   controller.updateItemByPk
 )
+
+// Update item by productID and importedID
+router.put('/', controller.updateItems)
 
 // Delete item by productID
 router.delete(

@@ -3,7 +3,7 @@ import * as controller from '~/controllers/post-attachment.controller'
 import { validationRules } from '~/middleware/request-validator'
 
 const router = Router()
-// Create new item
+
 router.post(
   '/',
   validationRules([
@@ -28,10 +28,12 @@ router.post(
   controller.getItems
 )
 
-router.post('/all', controller.updateList)
-
 // Update item by productID and importedID
-router.put('/:id', validationRules([{ field: 'id', fieldType: 'int', location: 'params' }]), controller.updateItemByPk)
+router.patch(
+  '/:id',
+  validationRules([{ field: 'id', fieldType: 'int', location: 'params' }]),
+  controller.updateItemByPk
+)
 
 // Delete item by productID
 router.delete(

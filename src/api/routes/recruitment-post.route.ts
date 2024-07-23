@@ -4,16 +4,9 @@ import { validationRules } from '~/middleware/request-validator'
 
 const router = Router()
 
-// Create new item
 router.post(
   '/',
   validationRules([{ field: 'industrySectorID', fieldType: 'int', location: 'body' }]),
-  controller.createNewItem
-)
-
-router.post(
-  '/createOrUpdate/:id',
-  validationRules([{ field: 'id', fieldType: 'int', location: 'params' }]),
   controller.createNewItem
 )
 
@@ -33,7 +26,11 @@ router.post(
 )
 
 // Update item by productID and importedID
-router.put('/:id', validationRules([{ field: 'id', fieldType: 'int', location: 'params' }]), controller.updateItemByPk)
+router.patch(
+  '/:id',
+  validationRules([{ field: 'id', fieldType: 'int', location: 'params' }]),
+  controller.updateItemByPk
+)
 
 // Delete item by productID
 router.delete(

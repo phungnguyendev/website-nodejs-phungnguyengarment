@@ -6,15 +6,6 @@ const router = Router()
 
 router.post('/', validationRules([{ field: 'title', fieldType: 'string', location: 'body' }]), controller.createNewItem)
 
-router.post(
-  '/createOrUpdate/:id',
-  validationRules([
-    { field: 'id', fieldType: 'int', location: 'params' },
-    { field: 'title', fieldType: 'string', location: 'body' }
-  ]),
-  controller.createNewItem
-)
-
 // Get item by productID and importedID
 router.get('/:id', validationRules([{ field: 'id', fieldType: 'int', location: 'params' }]), controller.getItemByPk)
 
@@ -31,7 +22,11 @@ router.post(
 )
 
 // Update item by productID and importedID
-router.put('/:id', validationRules([{ field: 'id', fieldType: 'int', location: 'params' }]), controller.updateItemByPk)
+router.patch(
+  '/:id',
+  validationRules([{ field: 'id', fieldType: 'int', location: 'params' }]),
+  controller.updateItemByPk
+)
 
 // Delete item by productID
 router.delete(

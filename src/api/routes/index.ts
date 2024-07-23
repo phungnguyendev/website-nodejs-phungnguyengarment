@@ -1,7 +1,6 @@
 import { Router } from 'express'
 import attachmentRoute from './attachment.route'
 import authRoute from './auth/auth.route'
-import branchRoute from './branch.route'
 import categoryRoute from './category.route'
 import heroBannerRoute from './hero-banner.route'
 import homeProductRoute from './home-product.route'
@@ -19,19 +18,18 @@ const router = Router()
 
 // Đường dẫn đến thư mục public
 router.use('/auth', authRoute)
-router.use('/hero-banners', heroBannerRoute)
-router.use('/home-products', homeProductRoute)
-router.use('/partners', partnerRoute)
-router.use('/prizes', prizeRoute)
-router.use('/projects', projectRoute)
-router.use('/categories', categoryRoute)
-router.use('/products', productRoute)
-router.use('/product-categories', productCategoryRoute)
-router.use('/posts', postRoute)
-router.use('/post-attachments', postAttachmentRoute)
-router.use('/attachments', attachmentRoute)
-router.use('/industry-sectors', industrySectorRoute)
-router.use('/branches', branchRoute)
-router.use('/recruitments', recruitmentPostRoute)
+router.use('/hero-banners', heroBannerRoute) // R
+router.use('/home-products', homeProductRoute) // R
+router.use('/partners', partnerRoute) // R
+router.use('/prizes', prizeRoute) // R
+router.use('/projects', projectRoute) // R
+router.use('/categories', categoryRoute) // R
+router.use('/products', productRoute) // R
+router.use('/product-categories', productCategoryRoute) // R
+router.use('/posts', postRoute) // R
+router.use('/post-attachments', postAttachmentRoute) // R
+router.use('/attachments', attachmentRoute) // R
+router.use('/industry-sectors', industrySectorRoute) // R
+router.use('/recruitments', recruitmentPostRoute) // R
 
 export default router

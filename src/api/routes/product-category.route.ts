@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import * as controller from '~/controllers/product-category.controller'
-import { validationRules } from '../middleware/request-validator'
+import { validationRules } from '~/middleware/request-validator'
 
 const router = Router()
 // Create new item
@@ -29,18 +29,10 @@ router.post(
 )
 
 // Update item by productCategoryID and importedID
-router.put('/:id', validationRules([{ field: 'id', fieldType: 'int', location: 'params' }]), controller.updateItemByPk)
-
-router.put(
-  '/categoryID/:categoryID',
-  validationRules([{ field: 'categoryID', fieldType: 'int', location: 'params' }]),
-  controller.updateItemByCategoryID
-)
-
-router.put(
-  '/productID/:productID',
-  validationRules([{ field: 'productID', fieldType: 'int', location: 'params' }]),
-  controller.updateItemByProductID
+router.patch(
+  '/:id',
+  validationRules([{ field: 'id', fieldType: 'int', location: 'params' }]),
+  controller.updateItemByPk
 )
 
 // Delete item by productCategoryID

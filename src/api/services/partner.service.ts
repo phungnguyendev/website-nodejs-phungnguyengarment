@@ -5,9 +5,10 @@ import PartnerSchema, { Partner } from '../models/partner.model'
 
 const NAMESPACE = 'services/partner'
 
-export const createNewItem = async (item: Partner): Promise<PartnerSchema> => {
+export const createNewItem = async (item: Partner) => {
   try {
-    return await PartnerSchema.create({ ...item })
+    const created = await PartnerSchema.create(item)
+    return created
   } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
     throw `${error.message}`
@@ -15,35 +16,19 @@ export const createNewItem = async (item: Partner): Promise<PartnerSchema> => {
 }
 
 // Get by id
-export const getItemByPk = async (id: number): Promise<PartnerSchema | null> => {
+export const getItemByPk = async (id: number) => {
   try {
-    return await PartnerSchema.findByPk(id)
+    const itemFound = await PartnerSchema.findByPk(id)
+    if (!itemFound) throw new Error(`Item not found`)
+    return itemFound
   } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
     throw `${error.message}`
-  }
-}
-
-export const getItemBy = async (item: Partner): Promise<PartnerSchema | null> => {
-  try {
-    return await PartnerSchema.findOne({ where: { ...item } })
-  } catch (error: any) {
-    logging.error(NAMESPACE, `${error}`)
-    throw `${error.message}`
-  }
-}
-
-export const getItemsCount = async (): Promise<number> => {
-  try {
-    return await PartnerSchema.count()
-  } catch (error: any) {
-    logging.error(NAMESPACE, `${error}`)
-    throw new Error(`${error}`)
   }
 }
 
 // Get all
-export const getItems = async (body: RequestBodyType): Promise<{ count: number; rows: PartnerSchema[] }> => {
+export const getItems = async (body: RequestBodyType) => {
   try {
     const items = await PartnerSchema.findAndCountAll({
       offset: (Number(body.paginator.page) - 1) * Number(body.paginator.pageSize),
@@ -58,42 +43,13 @@ export const getItems = async (body: RequestBodyType): Promise<{ count: number; 
   }
 }
 
-export const updateList = async (itemsUpdate: Partner[]): Promise<Partner[] | undefined> => {
-  try {
-    itemsUpdate.forEach(async (item) => {
-      await PartnerSchema.update({ ...item }, { where: { id: item.id } })
-        .then((affectedCount) => {
-          if (!(affectedCount[0] > 0)) throw new Error(`Update failed`)
-        })
-        .catch((e) => {
-          throw new Error(`${e}`)
-        })
-    })
-    // const updatedRows = itemsUpdate.map(async (item) => {
-    //   await PartnerSchema.update({ ...item }, { where: { id: item.id } })
-    // })
-    // console.log(updatedRows)
-    return itemsUpdate
-  } catch (error: any) {
-    logging.error(NAMESPACE, `${error}`)
-    throw `${error.message}`
-  }
-}
-
 // Update by productID
-export const updateItemByPk = async (id: number, itemToUpdate: Partner): Promise<Partner | undefined> => {
+export const updateItemByPk = async (id: number, itemToUpdate: Partner) => {
   try {
-    const affectedRows = await PartnerSchema.update(
-      {
-        ...itemToUpdate
-      },
-      {
-        where: {
-          id: id
-        }
-      }
-    )
-    return affectedRows[0] > 0 ? itemToUpdate : undefined
+    const itemFound = await PartnerSchema.findByPk(id)
+    if (!itemFound) throw new Error(`Item not found`)
+    await itemFound.update(itemToUpdate)
+    return itemToUpdate
   } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
     throw `${error.message}`
@@ -101,9 +57,12 @@ export const updateItemByPk = async (id: number, itemToUpdate: Partner): Promise
 }
 
 // Delete importedID
-export const deleteItemByPk = async (id: number): Promise<number> => {
+export const deleteItemByPk = async (id: number) => {
   try {
-    return await PartnerSchema.destroy({ where: { id: id } })
+    const itemFound = await PartnerSchema.findByPk(id)
+    if (!itemFound) throw new Error(`Item not found`)
+    await itemFound.destroy()
+    return { message: 'Deleted successfully' }
   } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
     throw `${error.message}`
