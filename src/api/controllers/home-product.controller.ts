@@ -62,6 +62,16 @@ export const updateItemByPk = async (req: Request, res: Response) => {
   }
 }
 
+export const updateItems = async (req: Request, res: Response) => {
+  try {
+    const itemsToUpdate = req.body as HomeProduct[]
+    const itemsUpdated = await service.updateItems(itemsToUpdate)
+    return res.formatter.ok({ data: itemsUpdated, message: message.UPDATED })
+  } catch (error: any) {
+    return res.formatter.badRequest({ message: `${error}` })
+  }
+}
+
 export const deleteItemByPk = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id)

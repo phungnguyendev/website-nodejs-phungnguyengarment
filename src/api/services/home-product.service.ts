@@ -56,6 +56,33 @@ export const updateItemByPk = async (id: number, itemToUpdate: HomeProduct) => {
   }
 }
 
+// Update by productID
+export const updateItems = async (itemsToUpdate: HomeProduct[]) => {
+  try {
+    await Promise.all(
+      itemsToUpdate.map((item) => {
+        HomeProductSchema.update(
+          { ...item },
+          {
+            where: {
+              id: item.id
+            }
+          }
+        )
+      })
+    )
+    // Lấy lại ds đã thay đổi
+    const items = await HomeProductSchema.findAll()
+    return items.map((item) => {
+      const itemUpdate = itemsToUpdate.find((self) => self.id === item.id)
+      return { ...item.dataValues, ...itemUpdate }
+    })
+  } catch (error: any) {
+    logging.error(NAMESPACE, `${error}`)
+    throw `${error.message}`
+  }
+}
+
 // Delete importedID
 export const deleteItemByPk = async (id: number) => {
   try {
