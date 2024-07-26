@@ -7,8 +7,7 @@ const NAMESPACE = 'services/project'
 
 export const createNewItem = async (item: Project) => {
   try {
-    const created = await ProjectSchema.create(item)
-    return created
+    return await ProjectSchema.create(item)
   } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
     throw `${error.message}`
@@ -50,6 +49,33 @@ export const updateItemByPk = async (id: number, itemToUpdate: Project) => {
     if (!itemFound) throw new Error(`Item not found`)
     await itemFound.update(itemToUpdate)
     return itemToUpdate
+  } catch (error: any) {
+    logging.error(NAMESPACE, `${error}`)
+    throw `${error.message}`
+  }
+}
+
+// Update by productID
+export const updateItems = async (itemsToUpdate: Project[]) => {
+  try {
+    await Promise.all(
+      itemsToUpdate.map((item) => {
+        ProjectSchema.update(
+          { ...item },
+          {
+            where: {
+              id: item.id
+            }
+          }
+        )
+      })
+    )
+    // Lấy lại ds đã thay đổi
+    const items = await ProjectSchema.findAll()
+    return items.map((item) => {
+      const itemUpdate = itemsToUpdate.find((self) => self.id === item.id)
+      return { ...item.dataValues, ...itemUpdate }
+    })
   } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
     throw `${error.message}`

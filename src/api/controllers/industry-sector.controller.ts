@@ -7,8 +7,7 @@ import { message } from '~/utils/constant'
 export const createNewItem = async (req: Request, res: Response) => {
   try {
     const dataRequest: IndustrySector = {
-      ...req.body,
-      status: req.body.status ?? 'active'
+      ...req.body
     }
     const newItem = await service.createNewItem(dataRequest)
     return res.formatter.created({ data: newItem })

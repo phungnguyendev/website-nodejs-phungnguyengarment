@@ -12,7 +12,6 @@ import PartnerSchema from './partner.model'
 import PostAttachmentSchema from './post-attachment.model'
 import PostSchema from './post.model'
 import PrizeSchema from './prize.model'
-import ProductCategorySchema from './product-category.model'
 import ProductSchema from './product.model'
 import ProjectSchema from './project.model'
 import RecruitmentPostSchema from './recruitment-post.model'
@@ -34,7 +33,6 @@ sequelize?.addModels([
   PostSchema,
   PrizeSchema,
   ProductSchema,
-  ProductCategorySchema,
   ProjectSchema,
   RecruitmentPostSchema
 ])

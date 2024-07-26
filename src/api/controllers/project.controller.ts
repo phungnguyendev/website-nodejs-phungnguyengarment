@@ -7,8 +7,7 @@ import { message } from '~/utils/constant'
 export const createNewItem = async (req: Request, res: Response) => {
   try {
     const dataRequest: Project = {
-      ...req.body,
-      status: req.body.status ?? 'active'
+      ...req.body
     }
     const newItem = await service.createNewItem(dataRequest)
     return res.formatter.created({ data: newItem })
@@ -57,6 +56,16 @@ export const updateItemByPk = async (req: Request, res: Response) => {
     }
     const itemUpdated = await service.updateItemByPk(id, itemRequest)
     return res.formatter.ok({ data: itemUpdated, message: message.UPDATED })
+  } catch (error: any) {
+    return res.formatter.badRequest({ message: `${error}` })
+  }
+}
+
+export const updateItems = async (req: Request, res: Response) => {
+  try {
+    const itemsToUpdate = req.body as Project[]
+    const itemsUpdated = await service.updateItems(itemsToUpdate)
+    return res.formatter.ok({ data: itemsUpdated, message: message.UPDATED })
   } catch (error: any) {
     return res.formatter.badRequest({ message: `${error}` })
   }

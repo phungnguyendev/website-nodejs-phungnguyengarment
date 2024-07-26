@@ -9,7 +9,6 @@ import partnerRoute from './partner.route'
 import postAttachmentRoute from './post-attachment.route'
 import postRoute from './post.route'
 import prizeRoute from './prize.route'
-import productCategoryRoute from './product-category.route'
 import productRoute from './product.route'
 import projectRoute from './project.route'
 import recruitmentPostRoute from './recruitment-post.route'
@@ -25,7 +24,6 @@ router.use('/prizes', prizeRoute) // R
 router.use('/projects', projectRoute) // R
 router.use('/categories', categoryRoute) // R
 router.use('/products', productRoute) // R
-router.use('/product-categories', productCategoryRoute) // R
 router.use('/posts', postRoute) // R
 router.use('/post-attachments', postAttachmentRoute) // R
 router.use('/attachments', attachmentRoute) // R

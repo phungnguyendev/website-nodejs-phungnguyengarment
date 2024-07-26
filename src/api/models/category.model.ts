@@ -1,5 +1,4 @@
-import { AfterCreate, Column, DataType, HasMany, Model, Table } from 'sequelize-typescript'
-import ProductCategorySchema from './product-category.model'
+import { AfterCreate, Column, DataType, Model, Table } from 'sequelize-typescript'
 
 const { INTEGER, STRING } = DataType
 
@@ -31,9 +30,6 @@ export default class CategorySchema extends Model<Category> {
 
   @Column({ type: INTEGER, field: 'order_number' })
   declare orderNumber: number
-
-  @HasMany(() => ProductCategorySchema)
-  declare productCategory: ProductCategorySchema
 
   @AfterCreate
   static async afterCreateHook(instance: CategorySchema) {

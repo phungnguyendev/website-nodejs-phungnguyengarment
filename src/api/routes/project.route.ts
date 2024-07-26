@@ -1,13 +1,13 @@
 import { Router } from 'express'
-import * as controller from '~/controllers/project.controller'
-import { validationRules } from '~/middleware/request-validator'
+import * as controller from '../controllers/project.controller'
+import { validationRules } from '../middleware/request-validator'
 
 const router = Router()
+
 router.post(
   '/',
   validationRules([
     { field: 'title', fieldType: 'string', location: 'body' },
-    { field: 'desc', fieldType: 'string', location: 'body' },
     { field: 'imageUrl', fieldType: 'string', location: 'body' }
   ]),
   controller.createNewItem
@@ -34,6 +34,9 @@ router.patch(
   validationRules([{ field: 'id', fieldType: 'int', location: 'params' }]),
   controller.updateItemByPk
 )
+
+// Update item by productID and importedID
+router.put('/', controller.updateItems)
 
 // Delete item by productID
 router.delete(
