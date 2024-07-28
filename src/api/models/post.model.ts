@@ -1,6 +1,6 @@
 import { AfterCreate, Column, DataType, Model, Table } from 'sequelize-typescript'
 
-const { INTEGER, STRING, BLOB } = DataType
+const { INTEGER, STRING, TEXT, BLOB } = DataType
 
 export interface Post {
   id?: number
@@ -23,10 +23,10 @@ export default class PostSchema extends Model<Post> {
   @Column({ type: STRING, field: 'title' })
   declare title: string
 
-  @Column({ type: BLOB('long'), field: 'content' })
+  @Column({ type: TEXT, field: 'content' })
   declare content: string
 
-  @Column({ type: STRING(1000), field: 'image_id' })
+  @Column({ type: STRING, field: 'image_url' })
   declare imageUrl: string
 
   @Column({ type: STRING, field: 'published_at' })
