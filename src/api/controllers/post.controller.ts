@@ -36,15 +36,9 @@ export const getItems = async (req: Request, res: Response) => {
       filter: { status: 'active', field: 'id', items: [-1] }
     })
     const items = await service.getItems(bodyRequest)
-
-    const data = items.rows.map((item) => {
-      const arrayBuffer = Buffer.from(item.dataValues.content!, 'binary')
-      const textData = arrayBuffer.toString('utf8')
-      return { ...item.dataValues, content: textData }
-    })
     return res.formatter.ok({
-      data: data,
-      length: items.rows.length,
+      data: items.rows,
+      length: items.count,
       page: Number(bodyRequest.paginator.page),
       pageSize: Number(bodyRequest.paginator.pageSize),
       total: bodyRequest.search.term.length > 0 ? items.count : countAll.count

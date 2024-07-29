@@ -1,12 +1,10 @@
 import { Router } from 'express'
-import attachmentRoute from './attachment.route'
 import authRoute from './auth/auth.route'
 import categoryRoute from './category.route'
 import heroBannerRoute from './hero-banner.route'
 import homeProductRoute from './home-product.route'
 import industrySectorRoute from './industry-sector.route'
 import partnerRoute from './partner.route'
-import postAttachmentRoute from './post-attachment.route'
 import postRoute from './post.route'
 import prizeRoute from './prize.route'
 import productRoute from './product.route'
@@ -25,8 +23,6 @@ router.use('/projects', projectRoute) // R
 router.use('/categories', categoryRoute) // R
 router.use('/products', productRoute) // R
 router.use('/posts', postRoute) // R
-router.use('/post-attachments', postAttachmentRoute) // R
-router.use('/attachments', attachmentRoute) // R
 router.use('/industry-sectors', industrySectorRoute) // R
 router.use('/recruitments', recruitmentPostRoute) // R
 

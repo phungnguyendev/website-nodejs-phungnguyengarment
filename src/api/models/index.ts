@@ -3,13 +3,11 @@ import { Sequelize } from 'sequelize-typescript'
 import appConfig from '~/config/app.config'
 import databaseConfig from '~/config/database.config'
 import logging from '~/utils/logging'
-import AttachmentSchema from './attachment.model'
 import CategorySchema from './category.model'
 import HeroBannerSchema from './hero-banner.model'
 import HomeProductSchema from './home-product.model'
 import IndustrySectorSchema from './industry-sector.model'
 import PartnerSchema from './partner.model'
-import PostAttachmentSchema from './post-attachment.model'
 import PostSchema from './post.model'
 import PrizeSchema from './prize.model'
 import ProductSchema from './product.model'
@@ -23,13 +21,11 @@ const sequelize = new Sequelize(databaseConfig)
 
 sequelize?.addModels([
   UserSchema,
-  AttachmentSchema,
   CategorySchema,
   HeroBannerSchema,
   HomeProductSchema,
   IndustrySectorSchema,
   PartnerSchema,
-  PostAttachmentSchema,
   PostSchema,
   PrizeSchema,
   ProductSchema,
