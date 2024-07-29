@@ -1,13 +1,12 @@
 import { AfterCreate, BelongsTo, Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript'
-import IndustrySectorSchema from './industry-sector.model'
+import JobSectorSchema from './job-sector.model'
 
 const { INTEGER, STRING } = DataType
 
 export interface RecruitmentPost {
   id?: number
-  industrySectorID?: number
-  vacancies?: string
-  quantity?: string
+  jobSectorID?: number
+  quantity?: number
   wage?: string
   workingTime?: string
   workingPlace?: string
@@ -24,15 +23,12 @@ export default class RecruitmentPostSchema extends Model<RecruitmentPost> {
   @Column({ type: INTEGER, primaryKey: true, autoIncrement: true, field: 'id' })
   declare id: number
 
-  @Column({ type: INTEGER, field: 'id' })
-  @ForeignKey(() => IndustrySectorSchema)
-  declare industrySectorID: number
+  @Column({ type: INTEGER, field: 'job_sector_id' })
+  @ForeignKey(() => JobSectorSchema)
+  declare jobSectorID: number
 
-  @Column({ type: STRING, field: 'vacancies' })
-  declare vacancies: string
-
-  @Column({ type: STRING, field: 'quantity' })
-  declare quantity: string
+  @Column({ type: INTEGER, field: 'quantity' })
+  declare quantity: number
 
   @Column({ type: STRING, field: 'wage' })
   declare wage: string
@@ -49,8 +45,8 @@ export default class RecruitmentPostSchema extends Model<RecruitmentPost> {
   @Column({ type: INTEGER, field: 'order_number' })
   declare orderNumber: number
 
-  @BelongsTo(() => IndustrySectorSchema)
-  declare industrySector: IndustrySectorSchema
+  @BelongsTo(() => JobSectorSchema)
+  declare jobSector: JobSectorSchema
 
   @AfterCreate
   static async afterCreateHook(instance: RecruitmentPostSchema) {

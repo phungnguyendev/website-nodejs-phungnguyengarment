@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import * as controller from '~/controllers/industry-sector.controller'
+import * as controller from '~/controllers/job-sector.controller'
 import { validationRules } from '~/middleware/request-validator'
 
 const router = Router()

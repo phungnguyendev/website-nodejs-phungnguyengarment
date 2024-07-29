@@ -1,12 +1,12 @@
 import { Request, Response } from 'express'
-import * as service from '~/api/services/industry-sector.service'
-import { IndustrySector } from '~/models/industry-sector.model'
+import * as service from '~/api/services/job-sector.service'
+import { JobSector } from '~/models/job-sector.model'
 import { RequestBodyType } from '~/type'
 import { message } from '~/utils/constant'
 
 export const createNewItem = async (req: Request, res: Response) => {
   try {
-    const dataRequest: IndustrySector = {
+    const dataRequest: JobSector = {
       ...req.body
     }
     const newItem = await service.createNewItem(dataRequest)
@@ -51,7 +51,7 @@ export const getItems = async (req: Request, res: Response) => {
 export const updateItemByPk = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id)
-    const itemRequest: IndustrySector = {
+    const itemRequest: JobSector = {
       ...req.body
     }
     const itemUpdated = await service.updateItemByPk(id, itemRequest)

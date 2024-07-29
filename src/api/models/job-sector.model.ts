@@ -2,18 +2,18 @@ import { AfterCreate, Column, DataType, Model, Table } from 'sequelize-typescrip
 
 const { INTEGER, STRING } = DataType
 
-export interface IndustrySector {
+export interface JobSector {
   id?: number
   title?: string
   orderNumber?: number
 }
 
 @Table({
-  modelName: 'IndustrySector',
-  tableName: 'industry_sectors',
+  modelName: 'JobSector',
+  tableName: 'job_sectors',
   timestamps: true
 })
-export default class IndustrySectorSchema extends Model<IndustrySector> {
+export default class JobSectorSchema extends Model<JobSector> {
   @Column({ type: INTEGER, primaryKey: true, autoIncrement: true, field: 'id' })
   declare id: number
 
@@ -24,9 +24,9 @@ export default class IndustrySectorSchema extends Model<IndustrySector> {
   declare orderNumber: number
 
   @AfterCreate
-  static async afterCreateHook(instance: IndustrySectorSchema) {
+  static async afterCreateHook(instance: JobSectorSchema) {
     // You can perform additional actions here
-    const count = await IndustrySectorSchema.count()
+    const count = await JobSectorSchema.count()
     await instance.update({ orderNumber: count })
   }
 }

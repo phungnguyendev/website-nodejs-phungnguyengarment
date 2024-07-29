@@ -6,7 +6,14 @@ const router = Router()
 
 router.post(
   '/',
-  validationRules([{ field: 'industrySectorID', fieldType: 'int', location: 'body' }]),
+  validationRules([
+    { field: 'jobSectorID', fieldType: 'int', location: 'body' },
+    { field: 'quantity', fieldType: 'int', location: 'body' },
+    { field: 'wage', fieldType: 'string', location: 'body' },
+    { field: 'workingTime', fieldType: 'string', location: 'body' },
+    { field: 'workingPlace', fieldType: 'string', location: 'body' },
+    { field: 'expirationDate', fieldType: 'string', location: 'body' }
+  ]),
   controller.createNewItem
 )
 

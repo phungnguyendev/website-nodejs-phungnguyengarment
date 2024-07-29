@@ -1,13 +1,13 @@
 import { buildDynamicQuery } from '~/helpers/query'
-import IndustrySectorSchema, { IndustrySector } from '~/models/industry-sector.model'
+import JobSectorSchema, { JobSector } from '~/models/job-sector.model'
 import { RequestBodyType } from '~/type'
 import logging from '~/utils/logging'
 
-const NAMESPACE = 'services/industry-sector'
+const NAMESPACE = 'services/job-sector'
 
-export const createNewItem = async (item: IndustrySector) => {
+export const createNewItem = async (item: JobSector) => {
   try {
-    const created = await IndustrySectorSchema.create(item)
+    const created = await JobSectorSchema.create(item)
     return created
   } catch (error: any) {
     logging.error(NAMESPACE, `${error}`)
@@ -18,7 +18,7 @@ export const createNewItem = async (item: IndustrySector) => {
 // Get by id
 export const getItemByPk = async (id: number) => {
   try {
-    const itemFound = await IndustrySectorSchema.findByPk(id)
+    const itemFound = await JobSectorSchema.findByPk(id)
     if (!itemFound) throw new Error(`Item not found`)
     return itemFound
   } catch (error: any) {
@@ -30,11 +30,11 @@ export const getItemByPk = async (id: number) => {
 // Get all
 export const getItems = async (body: RequestBodyType) => {
   try {
-    const items = await IndustrySectorSchema.findAndCountAll({
+    const items = await JobSectorSchema.findAndCountAll({
       offset: (Number(body.paginator.page) - 1) * Number(body.paginator.pageSize),
       limit: body.paginator.pageSize === -1 ? undefined : body.paginator.pageSize,
       order: [[body.sorting.column, body.sorting.direction]],
-      where: buildDynamicQuery<IndustrySector>(body)
+      where: buildDynamicQuery<JobSector>(body)
     })
     return items
   } catch (error: any) {
@@ -44,9 +44,9 @@ export const getItems = async (body: RequestBodyType) => {
 }
 
 // Update by productID
-export const updateItemByPk = async (id: number, itemToUpdate: IndustrySector) => {
+export const updateItemByPk = async (id: number, itemToUpdate: JobSector) => {
   try {
-    const itemFound = await IndustrySectorSchema.findByPk(id)
+    const itemFound = await JobSectorSchema.findByPk(id)
     if (!itemFound) throw new Error(`Item not found`)
     await itemFound.update(itemToUpdate)
     return itemToUpdate
@@ -59,7 +59,7 @@ export const updateItemByPk = async (id: number, itemToUpdate: IndustrySector) =
 // Delete importedID
 export const deleteItemByPk = async (id: number) => {
   try {
-    const itemFound = await IndustrySectorSchema.findByPk(id)
+    const itemFound = await JobSectorSchema.findByPk(id)
     if (!itemFound) throw new Error(`Item not found`)
     await itemFound.destroy()
     return { message: 'Deleted successfully' }

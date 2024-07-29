@@ -3,7 +3,7 @@ import authRoute from './auth/auth.route'
 import categoryRoute from './category.route'
 import heroBannerRoute from './hero-banner.route'
 import homeProductRoute from './home-product.route'
-import industrySectorRoute from './industry-sector.route'
+import jobSectorRoute from './job-sector.route'
 import partnerRoute from './partner.route'
 import postRoute from './post.route'
 import prizeRoute from './prize.route'
@@ -23,7 +23,7 @@ router.use('/projects', projectRoute) // R
 router.use('/categories', categoryRoute) // R
 router.use('/products', productRoute) // R
 router.use('/posts', postRoute) // R
-router.use('/industry-sectors', industrySectorRoute) // R
+router.use('/job-sectors', jobSectorRoute) // R
 router.use('/recruitments', recruitmentPostRoute) // R
 
 export default router
