@@ -35,6 +35,9 @@ router.patch(
   controller.updateItemByPk
 )
 
+// Update item by productID and importedID
+router.put('/', controller.updateItems)
+
 // Delete item by productID
 router.delete(
   '/:id',

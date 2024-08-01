@@ -56,6 +56,33 @@ export const updateItemByPk = async (id: number, itemToUpdate: Category) => {
   }
 }
 
+// Update by productID
+export const updateItems = async (itemsToUpdate: Category[]) => {
+  try {
+    await Promise.all(
+      itemsToUpdate.map((item) => {
+        CategorySchema.update(
+          { ...item },
+          {
+            where: {
+              id: item.id
+            }
+          }
+        )
+      })
+    )
+    // Lấy lại ds đã thay đổi
+    const items = await CategorySchema.findAll()
+    return items.map((item) => {
+      const itemUpdate = itemsToUpdate.find((self) => self.id === item.id)
+      return { ...item.dataValues, ...itemUpdate }
+    })
+  } catch (error: any) {
+    logging.error(NAMESPACE, `${error}`)
+    throw `${error.message}`
+  }
+}
+
 // Delete importedID
 export const deleteItemByPk = async (id: number) => {
   try {
