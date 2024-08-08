@@ -26,6 +26,16 @@ export const getItemByPk = async (req: Request, res: Response) => {
   }
 }
 
+export const getItemByRouteTitle = async (req: Request, res: Response) => {
+  try {
+    const routeTitle = req.params.routeTitle
+    const itemFound = await service.getItemByRouteTitle(routeTitle)
+    return res.formatter.ok({ data: itemFound, message: message.SUCCESS })
+  } catch (error: any) {
+    return res.formatter.badRequest({ message: `${error}` })
+  }
+}
+
 export const getItems = async (req: Request, res: Response) => {
   try {
     const bodyRequest: RequestBodyType = {

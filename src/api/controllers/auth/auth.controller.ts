@@ -14,7 +14,7 @@ export const login = async (req: Request, res: Response) => {
       return res.formatter.ok({
         data: {
           ...userExist.dataValues,
-          accessToken: jwt.sign({ email: email }, appConfig.secret_key, { expiresIn: '3 days' })
+          accessToken: jwt.sign({ email: email }, appConfig.secretKey, { expiresIn: '3 days' })
         },
         message: message.LOGIN_SUCCESS
       })

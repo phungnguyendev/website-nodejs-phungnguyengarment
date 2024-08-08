@@ -25,7 +25,7 @@ export const verifyAccessToken = async (req: Request, res: Response, next: NextF
   const accessToken = req.headers.authorization
   try {
     if (!accessToken) return res.formatter.unauthorized({})
-    const email = jwt.verify(accessToken, appConfig.secret_key)
+    const email = jwt.verify(accessToken, appConfig.secretKey)
     if (!email) return res.formatter.notFound({})
     const emailExist = await userService.getItemBy({ email: `${email}` })
     if (emailExist) return res.formatter.notFound({ message: `Can not find user with email: ${email}` })

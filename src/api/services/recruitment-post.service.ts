@@ -33,6 +33,22 @@ export const getItemByPk = async (id: number) => {
   }
 }
 
+// Get by id
+export const getItemByRouteTitle = async (routeTitle: string) => {
+  try {
+    const itemFound = await RecruitmentPostSchema.findOne({
+      where: { routeTitle: routeTitle },
+      include: [{ model: JobSectorSchema, as: 'jobSector' }]
+    })
+    if (!itemFound) throw new Error(`Item not found`)
+
+    return itemFound
+  } catch (error: any) {
+    logging.error(NAMESPACE, `${error}`)
+    throw `${error.message}`
+  }
+}
+
 // Get all
 export const getItems = async (body: RequestBodyType) => {
   try {

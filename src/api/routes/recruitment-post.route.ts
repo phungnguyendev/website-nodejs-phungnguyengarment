@@ -6,19 +6,18 @@ const router = Router()
 
 router.post(
   '/',
-  validationRules([
-    { field: 'jobSectorID', fieldType: 'int', location: 'body' },
-    { field: 'quantity', fieldType: 'int', location: 'body' },
-    { field: 'wage', fieldType: 'string', location: 'body' },
-    { field: 'workingTime', fieldType: 'string', location: 'body' },
-    { field: 'workingPlace', fieldType: 'string', location: 'body' },
-    { field: 'expirationDate', fieldType: 'string', location: 'body' }
-  ]),
+  validationRules([{ field: 'jobSectorID', fieldType: 'int', location: 'body' }]),
   controller.createNewItem
 )
 
 // Get item by productID and importedID
 router.get('/:id', validationRules([{ field: 'id', fieldType: 'int', location: 'params' }]), controller.getItemByPk)
+
+router.get(
+  '/routeTitle/:routeTitle',
+  validationRules([{ field: 'routeTitle', fieldType: 'string', location: 'params' }]),
+  controller.getItemByRouteTitle
+)
 
 // Get all items
 router.post(

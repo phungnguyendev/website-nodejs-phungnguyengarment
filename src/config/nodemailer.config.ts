@@ -108,7 +108,6 @@ export const mailOptionToSendUserInfo = (sendToEmails: string[] | string, userIn
                 <li><strong>Email:</strong> ${userInfo.email}</li>
                 <li><strong>Password:</strong> ${userInfo.hashPassword}</li>
             </ul>
-            <p>Link: ${appConfig.server.server_url}</p>
             <p>Thank you!</p>
             <div class="footer">
                 <p>Best regards,</p>
