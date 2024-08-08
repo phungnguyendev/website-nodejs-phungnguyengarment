@@ -9,7 +9,14 @@ import sequelize from './api/models'
 
 const app = express()
 
-const corsOptions: CorsOptions = {}
+const corsOptions: CorsOptions = {
+  origin: [
+    'https://phungnguyengarment.vn',
+    'http://phungnguyengarment.vn',
+    'https://admin.phungnguyengarment.vn',
+    'http://admin.phungnguyengarment.vn'
+  ]
+}
 // Accept json body request
 app.use(express.json({ limit: '50mb' }))
 app.use(express.urlencoded({ extended: true, limit: '50mb' }))
