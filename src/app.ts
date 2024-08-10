@@ -16,7 +16,9 @@ const corsOptions: CorsOptions = {
     'https://admin.phungnguyengarment.vn',
     'http://admin.phungnguyengarment.vn',
     'http://27.71.26.53:3000',
-    'http://27.71.26.53:3002'
+    'http://27.71.26.53:3002',
+    'http://localhost:3000',
+    'http://localhost:3002'
   ]
 }
 // Accept json body request
