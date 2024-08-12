@@ -12,8 +12,10 @@ const app = express()
 const corsOptions: CorsOptions = {
   origin: [
     'https://phungnguyengarment.vn',
+    'https://www.phungnguyengarment.vn',
     'http://phungnguyengarment.vn',
     'https://admin.phungnguyengarment.vn',
+    'https://www.admin.phungnguyengarment.vn',
     'http://admin.phungnguyengarment.vn',
     'http://27.71.26.53:3000',
     'http://27.71.26.53:3002',
